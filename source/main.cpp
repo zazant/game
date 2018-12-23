@@ -1,7 +1,7 @@
+#include <iostream>
+
 #include "config.h"
 #include "application.h"
-
-#include <iostream>
 
 int main() {
   Config config;
