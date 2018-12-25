@@ -13,12 +13,12 @@ namespace {
 }
 
 Player::Player(const Config &config) 
-: mConfig(config) {
+: mConfig(config),
+  pressing(false), 
+  position(glm::vec3(0.0, 0.0, 0.0)),
+  target(glm::vec3(0.0, 0.0, -1.0)),
+  center(glm::vec2(0.0, 0.0)) {
   // todo: set init values in better way (or something)
-  position = glm::vec3(0.0, 0.0, 0.0);
-  target = glm::vec3(0.0, 0.0, -1.0);
-
-  center = glm::vec2(0.0, 0.0);
 }
 
 glm::mat4 Player::getViewMatrix() {

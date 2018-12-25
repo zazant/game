@@ -25,11 +25,12 @@ class Player {
     glm::vec2 getPos();
 
   private:
+    float hello;
+    bool pressing;
+
     glm::vec2 center;
     glm::vec2 tempOffset;
     glm::vec2 clickLoc;
-
-    bool pressing = false;
 
     glm::vec3 position;
     glm::vec3 target;
