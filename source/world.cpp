@@ -34,9 +34,8 @@ World::World(const Config &config)
   shader.use();
 }
 
-void World::render(const glm::mat4 proj, const glm::mat4 view, glm::vec2 cursorPos) {
-  shader.setVec2("mouse", cursorPos);
-  shader.setFloat("time", glfwGetTime());
+void World::render(const glm::mat4 proj, const glm::mat4 view) {
+  // set shader variables here
 
   glBindVertexArray(VAO);
   glDrawArrays(GL_TRIANGLES, 0, 6);

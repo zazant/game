@@ -15,8 +15,6 @@ State::State(const Config &config, GLFWwindow *w)
 void State::handleInput() {
   if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
     mPlayer.handleMouse(window);
-  else
-    mPlayer.stopPressing();
 
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);

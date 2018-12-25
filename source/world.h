@@ -10,7 +10,7 @@
 class World {
   public:
     World(const Config &config);
-    void render(const glm::mat4 proj, const glm::mat4 view, glm::vec2 cursorPos);
+    void render(const glm::mat4 proj, const glm::mat4 view);
 
   private:
     GLuint VAO, VBO;
