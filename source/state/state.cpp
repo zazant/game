@@ -36,5 +36,5 @@ void State::update() {
 }
 
 void State::render() {
-  mWorld.render(mPlayer.getProjectionMatrix(), mPlayer.getViewMatrix(), mPlayer.getPos());
+  mWorld.render(mPlayer.getProjectionMatrix(), mPlayer.getViewMatrix(), mPlayer.getPos(), mPlayer.getZoom());
 }

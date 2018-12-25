@@ -17,15 +17,15 @@ class Player {
     Player(const Config &config);
     glm::mat4 getViewMatrix();
     glm::mat4 getProjectionMatrix();
+    glm::vec2 getPos();
+    float getZoom();
 
     void handleMouse(GLFWwindow *window);
     void stopPressing();
     void handleKeyboard(Direction direction);
 
-    glm::vec2 getPos();
-
   private:
-    float hello;
+    float zoom = 0.0f;
     bool pressing;
 
     glm::vec2 center;

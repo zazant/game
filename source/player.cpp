@@ -9,7 +9,9 @@
 #include <iostream>
 
 namespace {
+  void scrollCallback(GLFWwindow *window, double x, double y) {
 
+  }
 }
 
 Player::Player(const Config &config) 
@@ -33,6 +35,10 @@ glm::vec2 Player::getPos() {
   return center + tempOffset;
 }
 
+float Player::getZoom() {
+  return glm::exp(zoom);
+}
+
 void Player::handleMouse(GLFWwindow *window) {
   double tempX, tempY;
   glfwGetCursorPos(window, &tempX, &tempY);
@@ -54,5 +60,8 @@ void Player::stopPressing() {
 }
 
 void Player::handleKeyboard(Direction direction) {
-
+  if (direction == FORWARD)
+    zoom += 0.01;
+  if (direction == BACKWARD)
+    zoom -= 0.01;
 }

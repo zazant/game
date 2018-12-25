@@ -33,9 +33,10 @@ World::World(const Config &config)
   basic.use();
 }
 
-void World::render(const glm::mat4 proj, const glm::mat4 view, glm::vec2 cursorPos) {
+void World::render(const glm::mat4 proj, const glm::mat4 view, glm::vec2 cursorPos, float zoom) {
   basic.setVec2("mouse", cursorPos);
   basic.setFloat("time", glfwGetTime());
+  basic.setFloat("zoom", zoom);
 
   glBindVertexArray(VAO);
   glDrawArrays(GL_TRIANGLES, 0, 6);
