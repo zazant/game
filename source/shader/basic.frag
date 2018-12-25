@@ -5,6 +5,7 @@ out vec4 FragColor;
 in vec2 Position;
 
 uniform vec2 mouse;
+uniform float time;
 
 const int MAX_ITER = 100;
 

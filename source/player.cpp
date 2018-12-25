@@ -8,6 +8,10 @@
 
 #include <iostream>
 
+namespace {
+
+}
+
 Player::Player(const Config &config) 
 : mConfig(config) {
   // todo: set init values in better way (or something)
