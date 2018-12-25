@@ -22,15 +22,7 @@ class Player {
     void stopPressing();
     void handleKeyboard(Direction direction);
 
-    glm::vec2 getPos();
-
   private:
-    glm::vec2 center;
-    glm::vec2 tempOffset;
-    glm::vec2 clickLoc;
-
-    bool pressing = false;
-
     glm::vec3 position;
     glm::vec3 target;
 
