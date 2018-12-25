@@ -8,19 +8,13 @@
 
 #include <iostream>
 
-namespace {
-  void mouseCallback(GLFWwindow *window, double xpos, double ypos) {
-
-  }
-}
-
 Player::Player(const Config &config) 
 : mConfig(config) {
   // todo: set init values in better way (or something)
   position = glm::vec3(0.0, 0.0, 0.0);
   target = glm::vec3(0.0, 0.0, -1.0);
-  lastX = config.WIDTH / 2.0f;
-  lastY = config.HEIGHT / 2.0f;
+
+  center = glm::vec2(0.0, 0.0);
 }
 
 glm::mat4 Player::getViewMatrix() {
@@ -31,8 +25,28 @@ glm::mat4 Player::getProjectionMatrix() {
   return glm::perspective(glm::radians(mConfig.FOV), (float)mConfig.WIDTH / (float)mConfig.HEIGHT, 0.1f, 100.0f);
 }
 
-void Player::setCallback(GLFWwindow *window) {
-  glfwSetCursorPosCallback(window, mouseCallback);
+glm::vec2 Player::getPos() {
+  return center + tempOffset;
+}
+
+void Player::handleMouse(GLFWwindow *window) {
+  double tempX, tempY;
+  glfwGetCursorPos(window, &tempX, &tempY);
+
+  glm::vec2 cursorLoc(-tempX / mConfig.WIDTH , tempY / mConfig.HEIGHT);
+
+  if (!pressing) {
+    clickLoc = cursorLoc;
+    pressing = true;
+  }
+
+  tempOffset = cursorLoc - clickLoc;
+}
+
+void Player::stopPressing() {
+  pressing = false;
+  center += tempOffset;
+  tempOffset = glm::vec2(0.0, 0.0);
 }
 
 void Player::handleKeyboard(Direction direction) {
