@@ -14,10 +14,12 @@ Application::Application(const Config &config)
 void Application::runLoop() {
   while (!mWindow.shouldClose()) {
     mState.handleInput();
+    mWindow.clear();
+
     mState.update();
+
     mState.render();
 
-    mWindow.clear();
     mWindow.swapBuffer();
     mWindow.pollEvents();
   }
