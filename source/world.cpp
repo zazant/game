@@ -8,9 +8,12 @@
 World::World(const Config &config)
 : basic("/Users/anton/dev/game/source/shader/basic.vert", "/Users/anton/dev/game/source/shader/basic.frag") {
   float tempVertices[] = {
-    -0.5f,  0.5f, 0.0f,
-     0.5f,  0.5f, 0.0f,
-    -0.5f, -0.5f, 0.0f
+    -1.0f, -1.0f, 0.0f,
+    -1.0f,  1.0f, 0.0f,
+     1.0f,  1.0f, 0.0f,
+     1.0f,  1.0f, 0.0f,
+     1.0f, -1.0f, 0.0f,
+    -1.0f, -1.0f, 0.0f
   };
   vertices = tempVertices;
 
@@ -29,5 +32,5 @@ World::World(const Config &config)
 
 void World::render(const glm::mat4 proj, const glm::mat4 view) {
   glBindVertexArray(VAO);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawArrays(GL_TRIANGLES, 0, 6);
 }
