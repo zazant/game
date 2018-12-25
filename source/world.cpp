@@ -11,12 +11,9 @@ World::World(const Config &config)
 : shader("../source/shader/basic.vert", "../source/shader/basic.frag"),
   mConfig(config) {
   float tempVertices[] = {
-    -1.0f, -1.0f, 0.0f,
-    -1.0f,  1.0f, 0.0f,
-     1.0f,  1.0f, 0.0f,
-     1.0f,  1.0f, 0.0f,
-     1.0f, -1.0f, 0.0f,
-    -1.0f, -1.0f, 0.0f
+    -0.5f, -0.5f, 0.0f,
+     0.0f,  0.5f, 0.0f,
+     0.5f, -0.5f, 0.0f,
   };
   vertices = tempVertices;
 

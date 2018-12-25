@@ -31,7 +31,7 @@ Window::Window(const Config &config) {
 
     // glfw window creation
     // --------------------
-    window = glfwCreateWindow(config.WIDTH, config.HEIGHT, "Frac", NULL, NULL);
+    window = glfwCreateWindow(config.WIDTH, config.HEIGHT, "Game", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
