@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 
 World::World(const Config &config)
-: basic("/Users/anton/dev/game/source/shader/basic.vert", "/Users/anton/dev/game/source/shader/basic.frag") {
+: basic("../source/shader/basic.vert", "../source/shader/basic.frag") {
   float tempVertices[] = {
     -1.0f, -1.0f, 0.0f,
     -1.0f,  1.0f, 0.0f,
