@@ -50,7 +50,7 @@ void Player::handleMouse(GLFWwindow *window) {
     pressing = true;
   }
 
-  tempOffset = cursorLoc - clickLoc;
+  tempOffset = (cursorLoc - clickLoc) / glm::exp(zoom);
 }
 
 void Player::stopPressing() {

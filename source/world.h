@@ -14,7 +14,8 @@ class World {
 
   private:
     GLuint VAO, VBO;
-    Shader basic;
+    // change later
+    Shader shader;
     Config mConfig;
 
     // temporary
