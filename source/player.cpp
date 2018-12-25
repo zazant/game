@@ -33,9 +33,6 @@ glm::mat4 Player::getProjectionMatrix() {
 
 void Player::setCallback(GLFWwindow *window) {
   glfwSetCursorPosCallback(window, mouseCallback);
-
-  // tell GLFW to capture our mouse
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Player::handleKeyboard(Direction direction) {
