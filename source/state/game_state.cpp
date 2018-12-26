@@ -1,3 +1,4 @@
+#include "game_state.h"
 #include "state.h"
 
 #include "../config.h"
@@ -8,13 +9,14 @@
 
 #include <iostream>
 
-State::State(const Config &config, GLFWwindow *w)
-: mWorld(config), mPlayer(config), window(w) {
+GameState::GameState(Config &config, GLFWwindow *w)
+: State(config), mWorld(config), mPlayer(config, w), window(w) {
+
 }
 
-void State::handleInput() {
+void GameState::handleInput() {
   if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
-    mPlayer.handleMouse(window);
+    mPlayer.handleMouseClick();
 
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
@@ -29,10 +31,10 @@ void State::handleInput() {
     mPlayer.handleKeyboard(RIGHT);
 }
 
-void State::update() {
-
+void GameState::update() {
+  mPlayer.update();
 }
 
-void State::render() {
+void GameState::render() {
   mWorld.render(mPlayer.getProjectionMatrix(), mPlayer.getViewMatrix());
 }

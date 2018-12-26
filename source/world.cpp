@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-World::World(const Config &config)
+World::World(Config &config) 
 : shader("../source/shader/basic.vert", "../source/shader/basic.frag"),
   mConfig(config) {
   float tempVertices[] = {
@@ -33,7 +33,9 @@ World::World(const Config &config)
 
 void World::render(const glm::mat4 proj, const glm::mat4 view) {
   // set shader variables here
+  shader.setMat4("proj", proj);
+  shader.setMat4("view", view);
 
   glBindVertexArray(VAO);
-  glDrawArrays(GL_TRIANGLES, 0, 6);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 }

@@ -14,17 +14,26 @@ enum Direction {
 
 class Player {
   public:
-    Player(const Config &config);
+    Player(Config &config, GLFWwindow *window);
+
+    void update();
+
     glm::mat4 getViewMatrix();
     glm::mat4 getProjectionMatrix();
 
-    void handleMouse(GLFWwindow *window);
-    void stopPressing();
+    void setMouse(double x, double y);
+
+    void handleMouseClick();
     void handleKeyboard(Direction direction);
 
   private:
+    Config mConfig;
+    GLFWwindow *window;
+
+    float lastX, lastY;
+    float yaw, pitch;
+    bool firstMouse;
+    
     glm::vec3 position;
     glm::vec3 target;
-
-    Config mConfig;
 };

@@ -17,7 +17,7 @@ namespace {
   }
 }
 
-Window::Window(const Config &config) {
+Window::Window(Config &config) {
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();

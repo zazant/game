@@ -6,17 +6,13 @@
 
 #include <GLFW/glfw3.h>
 
-// todo: make multiple states
-
 class State {
   public:
-    State(const Config &config, GLFWwindow *window);
-    void handleInput();
-    void update();
-    void render();
-
+    State(Config &config) : mConfig(config) {};
+    virtual void handleInput() = 0;
+    virtual void update() = 0;
+    virtual void render() = 0;
+  
   private:
-    GLFWwindow *window;
-    World mWorld;
-    Player mPlayer;
+    Config &mConfig;
 };

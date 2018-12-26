@@ -6,7 +6,7 @@
 
 class Window {
   public:
-    Window(const Config &config);
+    Window(Config &config);
     GLFWwindow *get();
 
     bool shouldClose();

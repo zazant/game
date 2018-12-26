@@ -9,7 +9,7 @@
 
 class World {
   public:
-    World(const Config &config);
+    World(Config &config);
     void render(const glm::mat4 proj, const glm::mat4 view);
 
   private:

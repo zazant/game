@@ -2,16 +2,16 @@
 
 #include "config.h"
 #include "window.h"
-#include "state/state.h"
+#include "state/game_state.h"
 
 class Application {
   public:
-    Application(const Config &config);
+    Application(Config &config);
     void runLoop();
 
   private:
     Window mWindow;
 
     // todo: convert to vector
-    State mState;
+    GameState mState;
 };
