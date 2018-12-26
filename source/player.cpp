@@ -21,20 +21,20 @@ Player::Player(Config &config, GLFWwindow *w)
   position(glm::vec3(0.0, 0.0, 3.0)),
   yaw(-90.0f),
   firstMouse(true) {
-  // todo: set init values in better way (or something)
-  glfwSetWindowUserPointer(window, this);
-  glfwSetCursorPosCallback(window, cursorPosCallback);
-  // disable cursor
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetWindowUserPointer(window, this);
+    glfwSetCursorPosCallback(window, cursorPosCallback);
+    // disable cursor
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-  glm::vec3 front;
-  front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-  front.y = sin(glm::radians(pitch));
-  front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-  target = glm::normalize(front);
+    glm::vec3 front;
+    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+    front.y = sin(glm::radians(pitch));
+    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+    target = glm::normalize(front);
 }
 
 void Player::update() {
+
 }
 
 glm::mat4 Player::getViewMatrix() {
@@ -76,7 +76,7 @@ void Player::handleMouseClick() {
 }
 
 void Player::handleKeyboard(Direction direction) {
-  const float cameraSpeed = 0.05f;
+  const float cameraSpeed = 0.01f;
   switch (direction) {
     case FORWARD:
       position += target * cameraSpeed;
