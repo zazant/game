@@ -18,7 +18,7 @@ namespace {
 Player::Player(Config &config, GLFWwindow *w) 
 : mConfig(config),
   window(w),
-  position(glm::vec3(0.0, 0.0, 3.0)),
+  position(glm::vec3(0.0, 3.0, 3.0)),
   yaw(-90.0f),
   firstMouse(true) {
     glfwSetWindowUserPointer(window, this);
