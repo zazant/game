@@ -9,6 +9,10 @@
 
 #include <random>
 
+namespace {
+
+}
+
 World::World(Config &config) 
 : shader("../source/shader/checker.vert", "../source/shader/checker.frag"),
   mConfig(config) {
@@ -37,14 +41,14 @@ void World::generateWorld() {
   std::default_random_engine engine;
   std::uniform_real_distribution<float> distribution(-0.0f, 0.1f);
 
-  const int CHUNK_SIZE = 3;
+  int chunkSize = mConfig.WORLD_SETTINGS.CHUNK_SIZE;
 
-  float step = 2.0 / (CHUNK_SIZE - 1);
+  float step = 2.0 / (chunkSize - 1);
 
   float xVertex = -1.0;
   float zVertex = -1.0;
-  for (int i = 0; i < CHUNK_SIZE; i++) {
-    for (int j = 0; j < CHUNK_SIZE; j++) {
+  for (int i = 0; i < chunkSize; i++) {
+    for (int j = 0; j < chunkSize; j++) {
       mMesh.vertices.push_back(xVertex);
       mMesh.vertices.push_back(distribution(engine));
       mMesh.vertices.push_back(zVertex);
@@ -55,15 +59,15 @@ void World::generateWorld() {
     zVertex = -1.0;
   }
 
-  for (int i = 0; i < CHUNK_SIZE * (CHUNK_SIZE - 1); i += CHUNK_SIZE) {
-    for (int j = 0; j < CHUNK_SIZE - 1; j++) {
+  for (int i = 0; i < chunkSize * (chunkSize - 1); i += chunkSize) {
+    for (int j = 0; j < chunkSize - 1; j++) {
       mMesh.indices.push_back(i + j);
-      mMesh.indices.push_back(i + j + CHUNK_SIZE);
-      mMesh.indices.push_back(i + j + CHUNK_SIZE + 1);
+      mMesh.indices.push_back(i + j + chunkSize);
+      mMesh.indices.push_back(i + j + chunkSize + 1);
 
       mMesh.indices.push_back(i + j);
       mMesh.indices.push_back(i + j + 1);
-      mMesh.indices.push_back(i + j + CHUNK_SIZE + 1);
+      mMesh.indices.push_back(i + j + chunkSize + 1);
     }
   }
 

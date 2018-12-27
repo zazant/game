@@ -86,10 +86,10 @@ void Player::handleKeyboard(Direction direction) {
       position -= target * cameraSpeed;
       break;
     case LEFT:
-      position -= glm::cross(target, glm::vec3(0.0, 1.0, 0.0)) * cameraSpeed;
+      position -= glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * cameraSpeed;
       break;
     case RIGHT:
-      position += glm::cross(target, glm::vec3(0.0, 1.0, 0.0)) * cameraSpeed;
+      position += glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * cameraSpeed;
       break;
   }
 }
