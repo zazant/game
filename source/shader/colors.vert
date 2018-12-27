@@ -1,14 +1,13 @@
 #version 330 core
 
-layout (location = 0) in vec3 aPos;
+layout (location = 0) in vec3 Position;
 
-uniform mat4 proj;
-uniform mat4 view;
-uniform float time;
+uniform mat4 Projection;
+uniform mat4 View;
 
-out vec3 position;
+out vec3 frag_position;
 
 void main() {
-  position = aPos + 0.1;
-  gl_Position = proj * view * vec4(aPos, 1.0);
+  frag_position = vec3(Position.x, Position.y, Position.z);
+  gl_Position = Projection * View * vec4(Position, 1.0);
 }

@@ -18,7 +18,8 @@ namespace {
 Player::Player(Config &config, GLFWwindow *w) 
 : mConfig(config),
   window(w),
-  position(glm::vec3(0.0, 3.0, 3.0)),
+  // change later
+  position(glm::vec3(0.0, 1.0, 0.0)),
   yaw(-90.0f),
   firstMouse(true) {
     glfwSetWindowUserPointer(window, this);
@@ -42,7 +43,7 @@ glm::mat4 Player::getViewMatrix() {
 }
 
 glm::mat4 Player::getProjectionMatrix() {
-  return glm::perspective(glm::radians(mConfig.FOV), (float)mConfig.WIDTH / (float)mConfig.HEIGHT, 0.1f, 100.0f);
+  return glm::perspective(glm::radians(mConfig.FOV), (float)mConfig.WIDTH / (float)mConfig.HEIGHT, 0.01f, 100.0f);
 }
 
 void Player::setMouse(double x, double y) {

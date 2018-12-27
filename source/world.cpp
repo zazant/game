@@ -7,8 +7,10 @@
 
 #include <iostream>
 
+#include <random>
+
 World::World(Config &config) 
-: shader("../source/shader/basic.vert", "../source/shader/basic.frag"),
+: shader("../source/shader/checker.vert", "../source/shader/checker.frag"),
   mConfig(config) {
   mMesh.vertices = std::vector<GLfloat>();
 
@@ -32,7 +34,10 @@ World::World(Config &config)
 }
 
 void World::generateWorld() {
-  const int CHUNK_SIZE = 21;
+  std::default_random_engine engine;
+  std::uniform_real_distribution<float> distribution(-0.0f, 0.1f);
+
+  const int CHUNK_SIZE = 3;
 
   float step = 2.0 / (CHUNK_SIZE - 1);
 
@@ -41,7 +46,7 @@ void World::generateWorld() {
   for (int i = 0; i < CHUNK_SIZE; i++) {
     for (int j = 0; j < CHUNK_SIZE; j++) {
       mMesh.vertices.push_back(xVertex);
-      mMesh.vertices.push_back(0.0);
+      mMesh.vertices.push_back(distribution(engine));
       mMesh.vertices.push_back(zVertex);
 
       zVertex += step;
@@ -52,7 +57,6 @@ void World::generateWorld() {
 
   for (int i = 0; i < CHUNK_SIZE * (CHUNK_SIZE - 1); i += CHUNK_SIZE) {
     for (int j = 0; j < CHUNK_SIZE - 1; j++) {
-      // std::cout << i << " " << j << std::endl;
       mMesh.indices.push_back(i + j);
       mMesh.indices.push_back(i + j + CHUNK_SIZE);
       mMesh.indices.push_back(i + j + CHUNK_SIZE + 1);
@@ -63,23 +67,34 @@ void World::generateWorld() {
     }
   }
 
+  // // debug
+  // int remainder = 0;
+  // for (auto &a : mMesh.vertices) {
+  //   std::cout << a << " ";
+  //   remainder++;
+  //   if (remainder % 3 == 0) {
+  //     std::cout << "\n";
+  //   }
+  // }
 
-  int remainder = 0;
-  for (auto &a : mMesh.vertices) {
-    std::cout << a << " ";
-    remainder++;
-    if (remainder % 3 == 0) {
-      std::cout << "\n";
-    }
-  }
+  // std::cout << "---------------------------" << std::endl;
+
+  // // debug
+  // remainder = 0;
+  // for (auto &a : mMesh.indices) {
+  //   std::cout << a << " ";
+  //   remainder++;
+  //   if (remainder % 3 == 0) {
+  //     std::cout << "\n";
+  //   }
+  // }
 
 }
 
 void World::render(const glm::mat4 proj, const glm::mat4 view) {
   // set shader variables here
-  shader.setMat4("proj", proj);
-  shader.setMat4("view", view);
-  shader.setFloat("time", sin(glfwGetTime()));
+  shader.setMat4("Projection", proj);
+  shader.setMat4("View", view);
 
   glBindVertexArray(VAO);
   // glDrawArrays(GL_TRIANGLES, 0, 21 * 21);

@@ -2,12 +2,9 @@
 
 out vec4 FragColor;
 
-in vec2 Position;
+in vec3 frag_position;
 
-uniform vec2 mouse;
-uniform float time;
-uniform float zoom;
-uniform int MAX_ITER;
+const int MAX_ITER = 20;
 
 float mandelbrot(vec2 c) {
   vec2 z = vec2(c);
@@ -21,6 +18,6 @@ float mandelbrot(vec2 c) {
 }
 
 void main() {
-  float result = mandelbrot(Position / zoom + mouse);
+  float result = mandelbrot(vec2(frag_position.x, frag_position.z) * 10.0) + 0.1;
   FragColor = vec4(result, result, result, 1.0);
 }
