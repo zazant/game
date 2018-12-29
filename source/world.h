@@ -2,7 +2,7 @@
 
 #include "player.h"
 #include "config.h"
-#include "shader/shader.h"
+#include "shader.h"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
