@@ -9,19 +9,21 @@
 #include <iostream>
 
 namespace {
-    void cursorPosCallback(GLFWwindow *window, double x, double y) {
+    void cursorPosCallback(GLFWwindow *window, double x, double y)
+    {
         Player *player = (Player *) glfwGetWindowUserPointer(window);
         player->setMouse(x, y);
     }
 };
 
 Player::Player(Config &config, GLFWwindow *w)
-        : mConfig(config),
-          window(w),
-        // change later
-          position(glm::vec3(0.0, 1.0, 0.0)),
-          yaw(-90.0f),
-          firstMouse(true) {
+    : mConfig(config),
+      window(w),
+    // change later
+      position(glm::vec3(0.0, 1.0, 0.0)),
+      yaw(-90.0f),
+      firstMouse(true)
+{
     glfwSetWindowUserPointer(window, this);
     glfwSetCursorPosCallback(window, cursorPosCallback);
     // disable cursor
@@ -34,19 +36,23 @@ Player::Player(Config &config, GLFWwindow *w)
     target = glm::normalize(front);
 }
 
-void Player::update(float dt) {
+void Player::update(float dt)
+{
     deltaTime = dt;
 }
 
-glm::mat4 Player::getViewMatrix() {
+glm::mat4 Player::getViewMatrix()
+{
     return glm::lookAt(position, position + target, glm::vec3(0.0, 1.0, 0.0));
 }
 
-glm::mat4 Player::getProjectionMatrix() {
+glm::mat4 Player::getProjectionMatrix()
+{
     return glm::perspective(glm::radians(mConfig.FOV), (float) mConfig.WIDTH / (float) mConfig.HEIGHT, 0.01f, 100.0f);
 }
 
-void Player::setMouse(double x, double y) {
+void Player::setMouse(double x, double y)
+{
     if (firstMouse) {
         lastX = x;
         lastY = y;
@@ -71,25 +77,27 @@ void Player::setMouse(double x, double y) {
     target = glm::normalize(front);
 }
 
-void Player::handleMouseClick() {
+void Player::handleMouseClick()
+{
 
 }
 
-void Player::handleKeyboard(Direction direction) {
-    const float cameraSpeed = 1.0f * deltaTime;
+void Player::handleKeyboard(Direction direction)
+{
+    float adjustedSpeed = mConfig.INTERNAL_SETTINGS.MOVEMENT_SPEED * deltaTime;
 
     switch (direction) {
         case FORWARD:
-            position += target * cameraSpeed;
+            position += target * adjustedSpeed;
             break;
         case BACKWARD:
-            position -= target * cameraSpeed;
+            position -= target * adjustedSpeed;
             break;
         case LEFT:
-            position -= glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * cameraSpeed;
+            position -= glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
             break;
         case RIGHT:
-            position += glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * cameraSpeed;
+            position += glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
             break;
     }
 }

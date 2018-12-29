@@ -8,7 +8,8 @@
 
 class State {
 public:
-    State(Config &config) : mConfig(config) {};
+    State(Config &config) : mConfig(config)
+    {};
 
     virtual void handleInput() = 0;
 
@@ -16,23 +17,27 @@ public:
 
     virtual void render() = 0;
 
-    Config &getConfig() const {
+    Config &getConfig() const
+    {
         return mConfig;
     }
 
 protected:
     Config &mConfig;
 
-    void startTick() {
+    void startTick()
+    {
         now = static_cast<float>(glfwGetTime());
         deltaTime = now - lastTime;
     }
 
-    void endTick() {
+    void endTick()
+    {
         lastTime = now;
     }
 
-    float getDeltaTime() const {
+    float getDeltaTime() const
+    {
         return deltaTime;
     }
 

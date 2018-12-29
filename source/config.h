@@ -5,7 +5,8 @@ struct Config {
     int HEIGHT = 1000;
     float FOV = 80.0f;
     float SENSITIVITY = 0.05f;
-    struct world_settings {
+    struct internal_settings {
         int CHUNK_SIZE = 17;
-    } WORLD_SETTINGS;
+        float MOVEMENT_SPEED = 1.0f;
+    } INTERNAL_SETTINGS;
 };

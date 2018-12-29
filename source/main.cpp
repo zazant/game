@@ -3,7 +3,8 @@
 #include "config.h"
 #include "game.h"
 
-int main() {
+int main()
+{
     Config config;
     Game app(config);
 

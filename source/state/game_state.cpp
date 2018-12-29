@@ -10,11 +10,13 @@
 #include <iostream>
 
 GameState::GameState(Config &config, GLFWwindow *w)
-    :  State(config), mWorld(config), mPlayer(config, w), window(w) {
+    : State(config), mWorld(config), mPlayer(config, w), window(w)
+{
 
 }
 
-void GameState::handleInput() {
+void GameState::handleInput()
+{
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
         mPlayer.handleMouseClick();
 
@@ -31,12 +33,14 @@ void GameState::handleInput() {
         mPlayer.handleKeyboard(RIGHT);
 }
 
-void GameState::update() {
+void GameState::update()
+{
     endTick();
     startTick();
     mPlayer.update(deltaTime);
 }
 
-void GameState::render() {
+void GameState::render()
+{
     mWorld.render(mPlayer.getProjectionMatrix(), mPlayer.getViewMatrix());
 }

@@ -7,11 +7,13 @@
 #include <GLFW/glfw3.h>
 
 Game::Game(Config &config)
-    : mWindow(config), mState(config, mWindow.get()) {
+    : mWindow(config), mState(config, mWindow.get())
+{
 
 }
 
-void Game::runLoop() {
+void Game::runLoop()
+{
     while (!mWindow.shouldClose()) {
         mState.handleInput();
 
