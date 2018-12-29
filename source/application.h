@@ -5,12 +5,12 @@
 #include "state/game_state.h"
 
 class Application {
-  public:
+public:
     explicit Application(Config &config);
 
     void runLoop();
 
-  private:
+private:
     Window mWindow;
 
     // todo: convert to vector

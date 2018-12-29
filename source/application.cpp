@@ -7,20 +7,20 @@
 #include <GLFW/glfw3.h>
 
 Application::Application(Config &config)
-: mWindow(config), mState(config, mWindow.get()) {
+        : mWindow(config), mState(config, mWindow.get()) {
 
 }
 
 void Application::runLoop() {
-  while (!mWindow.shouldClose()) {
-    mState.handleInput();
+    while (!mWindow.shouldClose()) {
+        mState.handleInput();
 
-    mWindow.clear();
-    mState.update();
-    mState.render();
+        mWindow.clear();
+        mState.update();
+        mState.render();
 
-    mWindow.swapBuffer();
-    mWindow.pollEvents();
-  }
-  glfwTerminate();
+        mWindow.swapBuffer();
+        mWindow.pollEvents();
+    }
+    glfwTerminate();
 }

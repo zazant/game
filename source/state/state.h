@@ -7,12 +7,15 @@
 #include <GLFW/glfw3.h>
 
 class State {
-  public:
+public:
     State(Config &config) : mConfig(config) {};
+
     virtual void handleInput() = 0;
+
     virtual void update() = 0;
+
     virtual void render() = 0;
-  
-  private:
+
+private:
     Config &mConfig;
 };

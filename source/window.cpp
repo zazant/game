@@ -8,13 +8,13 @@
 #include <iostream>
 
 namespace {
-  // glfw: whenever the window size changed (by OS or user resize) this callback function executes
-  // ---------------------------------------------------------------------------------------------
-  void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-      // make sure the viewport matches the new window dimensions; note that width and 
-      // height will be significantly larger than specified on retina displays.
-      glViewport(0, 0, width, height);
-  }
+    // glfw: whenever the window size changed (by OS or user resize) this callback function executes
+    // ---------------------------------------------------------------------------------------------
+    void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
+        // make sure the viewport matches the new window dimensions; note that width and
+        // height will be significantly larger than specified on retina displays.
+        glViewport(0, 0, width, height);
+    }
 }
 
 Window::Window(Config &config) {
@@ -41,31 +41,36 @@ Window::Window(Config &config) {
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
-    }    
+    }
 
     glEnable(GL_DEPTH_TEST);
     glfwSwapInterval(0);
 };
 
 GLFWwindow *Window::get() {
-  return window;
+    return window;
 }
 
 bool Window::shouldClose() {
-  return static_cast<bool>(glfwWindowShouldClose(window));
+    return static_cast<bool>(glfwWindowShouldClose(window));
 }
 
 void Window::clear() {
-  glClearColor(0.0, 0.0, 0.0, 0.0);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Window::clear(int R, int G, int B) {
+    glClearColor(R, G, B, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::swapBuffer() {
-  glfwSwapBuffers(window);
+    glfwSwapBuffers(window);
 }
 
 void Window::pollEvents() {
-  glfwPollEvents();
+    glfwPollEvents();
 }

@@ -10,19 +10,19 @@
 #include <vector>
 
 struct Mesh {
-  std::vector<GLfloat> vertices;
-  std::vector<GLuint> indices;
+    std::vector<GLfloat> vertices;
+    std::vector<GLuint> indices;
 };
 
 class World {
-  public:
+public:
     explicit World(Config &config);
 
     void generateWorld();
 
     void render(glm::mat4 proj, glm::mat4 view);
 
-  private:
+private:
     GLuint VAO, VBO, EBO;
     Shader shader;
     Config mConfig;

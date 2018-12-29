@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 
 class Window {
-  public:
+public:
     explicit Window(Config &config);
 
     GLFWwindow *get();
@@ -13,9 +13,13 @@ class Window {
     bool shouldClose();
 
     void clear();
+
+    void clear(int R, int G, int B);
+
     void swapBuffer();
+
     void pollEvents();
 
-  private:
+private:
     GLFWwindow *window;
 };

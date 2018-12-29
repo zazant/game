@@ -11,13 +11,16 @@
 // todo: make multiple states
 
 class GameState : public State {
-  public:
+public:
     GameState(Config &config, GLFWwindow *window);
+
     void handleInput() override;
+
     void update() override;
+
     void render() override;
 
-  private:
+private:
     GLFWwindow *window;
     World mWorld;
     Player mPlayer;
