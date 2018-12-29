@@ -14,8 +14,8 @@ namespace {
 }
 
 World::World(Config &config)
-        : shader("res/shader/checker.vert", "res/shader/checker.frag"),
-          mConfig(config) {
+    : shader("res/shader/checker.vert", "res/shader/checker.frag"),
+      mConfig(config) {
     mMesh.vertices = std::vector<GLfloat>();
 
     glGenVertexArrays(1, &VAO);

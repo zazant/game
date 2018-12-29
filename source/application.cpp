@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h>
 
 Application::Application(Config &config)
-        : mWindow(config), mState(config, mWindow.get()) {
+    : mWindow(config), mState(config, mWindow.get()) {
 
 }
 

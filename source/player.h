@@ -35,6 +35,7 @@ private:
     float lastX, lastY;
     float yaw, pitch;
     bool firstMouse;
+    Direction tempPos;
 
     glm::vec3 position;
     glm::vec3 target;

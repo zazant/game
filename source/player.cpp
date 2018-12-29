@@ -16,12 +16,12 @@ namespace {
 };
 
 Player::Player(Config &config, GLFWwindow *w)
-        : mConfig(config),
-          window(w),
-        // change later
-          position(glm::vec3(0.0, 1.0, 0.0)),
-          yaw(-90.0f),
-          firstMouse(true) {
+    : mConfig(config),
+      window(w),
+    // change later
+      position(glm::vec3(0.0, 1.0, 0.0)),
+      yaw(-90.0f),
+      firstMouse(true) {
     glfwSetWindowUserPointer(window, this);
     glfwSetCursorPosCallback(window, cursorPosCallback);
     // disable cursor
@@ -35,7 +35,11 @@ Player::Player(Config &config, GLFWwindow *w)
 }
 
 void Player::update() {
-
+    glm::vec3 front;
+    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+    front.y = sin(glm::radians(pitch));
+    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+    target = glm::normalize(front);
 }
 
 glm::mat4 Player::getViewMatrix() {
@@ -63,12 +67,6 @@ void Player::setMouse(double x, double y) {
         pitch = 89.0f;
     if (pitch < -89.0f)
         pitch = -89.0f;
-
-    glm::vec3 front;
-    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-    front.y = sin(glm::radians(pitch));
-    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-    target = glm::normalize(front);
 }
 
 // add mouse callback? or implement, at least

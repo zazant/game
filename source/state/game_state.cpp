@@ -10,7 +10,7 @@
 #include <iostream>
 
 GameState::GameState(Config &config, GLFWwindow *w)
-        : State(config), mWorld(config), mPlayer(config, w), window(w) {
+    : State(config), mWorld(config), mPlayer(config, w), window(w) {
 
 }
 
