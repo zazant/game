@@ -15,7 +15,8 @@ namespace {
 
 World::World(Config &config)
     : shader("res/shader/checker.vert", "res/shader/checker.frag"),
-      mConfig(config) {
+      mConfig(config)
+{
     mMesh.vertices = std::vector<GLfloat>();
 
     glGenVertexArrays(1, &VAO);
@@ -37,16 +38,17 @@ World::World(Config &config)
     shader.use();
 }
 
-void World::generateWorld() {
+void World::generateWorld()
+{
     std::default_random_engine engine;
     std::uniform_real_distribution<float> distribution(-0.0f, 0.1f);
 
-    int chunkSize = mConfig.WORLD_SETTINGS.CHUNK_SIZE;
+    int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
 
-    float step = 2.0 / (chunkSize - 1);
+    float step = 2.0f / (chunkSize - 1);
 
-    float xVertex = -1.0;
-    float zVertex = -1.0;
+    float xVertex = -1.0f;
+    float zVertex = -1.0f;
     for (int i = 0; i < chunkSize; i++) {
         for (int j = 0; j < chunkSize; j++) {
             mMesh.vertices.push_back(xVertex);
@@ -56,11 +58,11 @@ void World::generateWorld() {
             zVertex += step;
         }
         xVertex += step;
-        zVertex = -1.0;
+        zVertex = -1.0f;
     }
 
-    for (int i = 0; i < chunkSize * (chunkSize - 1); i += chunkSize) {
-        for (int j = 0; j < chunkSize - 1; j++) {
+    for (unsigned int i = 0; i < chunkSize * (chunkSize - 1); i += chunkSize) {
+        for (unsigned int j = 0; j < chunkSize - 1; j++) {
             mMesh.indices.push_back(i + j);
             mMesh.indices.push_back(i + j + chunkSize);
             mMesh.indices.push_back(i + j + chunkSize + 1);
@@ -95,7 +97,8 @@ void World::generateWorld() {
 
 }
 
-void World::render(const glm::mat4 proj, const glm::mat4 view) {
+void World::render(const glm::mat4 proj, const glm::mat4 view)
+{
     // set shader variables here
     shader.setMat4("Projection", proj);
     shader.setMat4("View", view);
