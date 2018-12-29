@@ -13,9 +13,6 @@ public:
 private:
     Window mWindow;
 
-    float lastTime = 0.0f;
-    float deltaTime = 0.0f;
-
     // todo: convert to vector
     GameState mState;
 };

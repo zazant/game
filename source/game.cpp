@@ -13,11 +13,6 @@ Game::Game(Config &config)
 
 void Game::runLoop() {
     while (!mWindow.shouldClose()) {
-        float now = glfwGetTime();
-        deltaTime = now - lastTime;
-
-        mState.setDeltaTime(deltaTime);
-
         mState.handleInput();
 
         mWindow.clear();
@@ -26,8 +21,6 @@ void Game::runLoop() {
 
         mWindow.swapBuffer();
         mWindow.pollEvents();
-
-        lastTime = now;
     }
     glfwTerminate();
 }

@@ -32,7 +32,9 @@ void GameState::handleInput() {
 }
 
 void GameState::update() {
-    mPlayer.update(getDeltaTime());
+    endTick();
+    startTick();
+    mPlayer.update(deltaTime);
 }
 
 void GameState::render() {

@@ -16,20 +16,27 @@ public:
 
     virtual void render() = 0;
 
-    float getDeltaTime() const {
-        return deltaTime;
-    }
-
     Config &getConfig() const {
         return mConfig;
     }
 
-    void setDeltaTime(float deltaTime) {
-        State::deltaTime = deltaTime;
-    }
-
-private:
+protected:
     Config &mConfig;
 
+    void startTick() {
+        now = static_cast<float>(glfwGetTime());
+        deltaTime = now - lastTime;
+    }
+
+    void endTick() {
+        lastTime = now;
+    }
+
+    float getDeltaTime() const {
+        return deltaTime;
+    }
+
+    float now = 0.0f;
+    float lastTime = 0.0f;
     float deltaTime = 0.0f;
 };
