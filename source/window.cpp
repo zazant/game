@@ -10,14 +10,16 @@
 namespace {
     // glfw: whenever the window size changed (by OS or user resize) this callback function executes
     // ---------------------------------------------------------------------------------------------
-    void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
+    void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+    {
         // make sure the viewport matches the new window dimensions; note that width and
         // height will be significantly larger than specified on retina displays.
         glViewport(0, 0, width, height);
     }
 }
 
-Window::Window(Config &config) {
+Window::Window(Config &config)
+{
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
@@ -49,28 +51,34 @@ Window::Window(Config &config) {
     glfwSwapInterval(0);
 };
 
-GLFWwindow *Window::get() {
+GLFWwindow *Window::get()
+{
     return window;
 }
 
-bool Window::shouldClose() {
+bool Window::shouldClose()
+{
     return static_cast<bool>(glfwWindowShouldClose(window));
 }
 
-void Window::clear() {
+void Window::clear()
+{
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::clear(int R, int G, int B) {
+void Window::clear(int R, int G, int B)
+{
     glClearColor(R, G, B, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::swapBuffer() {
+void Window::swapBuffer()
+{
     glfwSwapBuffers(window);
 }
 
-void Window::pollEvents() {
+void Window::pollEvents()
+{
     glfwPollEvents();
 }
