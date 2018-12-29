@@ -14,7 +14,7 @@ namespace {
 }
 
 World::World(Config &config) 
-: shader("shader/checker.vert", "shader/checker.frag"),
+: shader("res/shader/checker.vert", "res/shader/checker.frag"),
   mConfig(config) {
   mMesh.vertices = std::vector<GLfloat>();
 
@@ -32,7 +32,7 @@ World::World(Config &config)
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, mMesh.indices.size() * sizeof(GLuint), mMesh.indices.data(), GL_STATIC_DRAW);
 
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
   shader.use();
 }
@@ -102,6 +102,6 @@ void World::render(const glm::mat4 proj, const glm::mat4 view) {
 
   glBindVertexArray(VAO);
   // glDrawArrays(GL_TRIANGLES, 0, 21 * 21);
-  glDrawElements(GL_TRIANGLES, mMesh.indices.size(), GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, mMesh.indices.size(), GL_UNSIGNED_INT, nullptr);
   glBindVertexArray(0);
 }

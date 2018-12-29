@@ -7,6 +7,9 @@ set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
 file(GLOB_RECURSE SOURCES "${SRC_DIR}/*.cpp")
 
+# Copy shader files
+file(COPY "${SRC_DIR}/shader" DESTINATION "res")
+
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
@@ -32,6 +35,3 @@ target_link_libraries(${PROJECT_NAME} "glad" "${CMAKE_DL_LIBS}")
 
 # GLM
 target_include_directories(${PROJECT_NAME} PRIVATE "${LIB_DIR}/glm")
-
-# Copy shader files
-file(COPY "${SRC_DIR}/shader" DESTINATION "/")
