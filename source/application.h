@@ -6,7 +6,8 @@
 
 class Application {
   public:
-    Application(Config &config);
+    explicit Application(Config &config);
+
     void runLoop();
 
   private:

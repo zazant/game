@@ -6,13 +6,16 @@
 
 class Window {
   public:
-    Window(Config &config);
+    explicit Window(Config &config);
+
     GLFWwindow *get();
 
     bool shouldClose();
+
     void clear();
     void swapBuffer();
     void pollEvents();
+
   private:
     GLFWwindow *window;
 };

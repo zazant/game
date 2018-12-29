@@ -31,8 +31,8 @@ Window::Window(Config &config) {
 
     // glfw window creation
     // --------------------
-    window = glfwCreateWindow(config.WIDTH, config.HEIGHT, "Game", NULL, NULL);
-    if (window == NULL) {
+    window = glfwCreateWindow(config.WIDTH, config.HEIGHT, "Game", nullptr, nullptr);
+    if (window == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
     }
@@ -45,7 +45,8 @@ Window::Window(Config &config) {
         std::cout << "Failed to initialize GLAD" << std::endl;
     }    
 
-    glEnable(GL_DEPTH_TEST); 
+    glEnable(GL_DEPTH_TEST);
+    glfwSwapInterval(0);
 };
 
 GLFWwindow *Window::get() {
@@ -53,7 +54,7 @@ GLFWwindow *Window::get() {
 }
 
 bool Window::shouldClose() {
-  return glfwWindowShouldClose(window);
+  return static_cast<bool>(glfwWindowShouldClose(window));
 }
 
 void Window::clear() {

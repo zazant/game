@@ -16,9 +16,11 @@ struct Mesh {
 
 class World {
   public:
-    World(Config &config);
+    explicit World(Config &config);
+
     void generateWorld();
-    void render(const glm::mat4 proj, const glm::mat4 view);
+
+    void render(glm::mat4 proj, glm::mat4 view);
 
   private:
     GLuint VAO, VBO, EBO;
