@@ -11,17 +11,17 @@
 namespace {
     void cursorPosCallback(GLFWwindow *window, double x, double y) {
         Player *player = (Player *) glfwGetWindowUserPointer(window);
-        (*player).setMouse(x, y);
+        player->setMouse(x, y);
     }
 };
 
 Player::Player(Config &config, GLFWwindow *w)
-    : mConfig(config),
-      window(w),
-    // change later
-      position(glm::vec3(0.0, 1.0, 0.0)),
-      yaw(-90.0f),
-      firstMouse(true) {
+        : mConfig(config),
+          window(w),
+        // change later
+          position(glm::vec3(0.0, 1.0, 0.0)),
+          yaw(-90.0f),
+          firstMouse(true) {
     glfwSetWindowUserPointer(window, this);
     glfwSetCursorPosCallback(window, cursorPosCallback);
     // disable cursor
@@ -34,12 +34,8 @@ Player::Player(Config &config, GLFWwindow *w)
     target = glm::normalize(front);
 }
 
-void Player::update() {
-    glm::vec3 front;
-    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-    front.y = sin(glm::radians(pitch));
-    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-    target = glm::normalize(front);
+void Player::update(float dt) {
+    deltaTime = dt;
 }
 
 glm::mat4 Player::getViewMatrix() {
@@ -67,6 +63,12 @@ void Player::setMouse(double x, double y) {
         pitch = 89.0f;
     if (pitch < -89.0f)
         pitch = -89.0f;
+
+    glm::vec3 front;
+    front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+    front.y = sin(glm::radians(pitch));
+    front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+    target = glm::normalize(front);
 }
 
 // add mouse callback? or implement, at least
@@ -75,7 +77,8 @@ void Player::handleMouseClick() {
 }
 
 void Player::handleKeyboard(Direction direction) {
-    const float cameraSpeed = 0.01f;
+    const float cameraSpeed = 1.0f * deltaTime;
+
     switch (direction) {
         case FORWARD:
             position += target * cameraSpeed;

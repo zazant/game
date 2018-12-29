@@ -16,7 +16,7 @@ class Player {
 public:
     Player(Config &config, GLFWwindow *window);
 
-    void update();
+    void update(float dt);
 
     glm::mat4 getViewMatrix();
 
@@ -31,6 +31,8 @@ public:
 private:
     Config mConfig;
     GLFWwindow *window;
+
+    float deltaTime = 0.0f;
 
     float lastX, lastY;
     float yaw, pitch;

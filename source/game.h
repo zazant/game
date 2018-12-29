@@ -4,14 +4,17 @@
 #include "window.h"
 #include "state/game_state.h"
 
-class Application {
+class Game {
 public:
-    explicit Application(Config &config);
+    explicit Game(Config &config);
 
     void runLoop();
 
 private:
     Window mWindow;
+
+    float lastTime = 0.0f;
+    float deltaTime = 0.0f;
 
     // todo: convert to vector
     GameState mState;

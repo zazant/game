@@ -1,11 +1,11 @@
 #include <iostream>
 
 #include "config.h"
-#include "application.h"
+#include "game.h"
 
 int main() {
     Config config;
-    Application app(config);
+    Game app(config);
 
     app.runLoop();
 

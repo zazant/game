@@ -1,4 +1,4 @@
-#include "application.h"
+#include "game.h"
 
 #include "config.h"
 #include "window.h"
@@ -6,13 +6,18 @@
 
 #include <GLFW/glfw3.h>
 
-Application::Application(Config &config)
+Game::Game(Config &config)
     : mWindow(config), mState(config, mWindow.get()) {
 
 }
 
-void Application::runLoop() {
+void Game::runLoop() {
     while (!mWindow.shouldClose()) {
+        float now = glfwGetTime();
+        deltaTime = now - lastTime;
+
+        mState.setDeltaTime(deltaTime);
+
         mState.handleInput();
 
         mWindow.clear();
@@ -21,6 +26,8 @@ void Application::runLoop() {
 
         mWindow.swapBuffer();
         mWindow.pollEvents();
+
+        lastTime = now;
     }
     glfwTerminate();
 }

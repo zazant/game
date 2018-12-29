@@ -10,7 +10,7 @@
 #include <iostream>
 
 GameState::GameState(Config &config, GLFWwindow *w)
-    : State(config), mWorld(config), mPlayer(config, w), window(w) {
+    :  State(config), mWorld(config), mPlayer(config, w), window(w) {
 
 }
 
@@ -32,7 +32,7 @@ void GameState::handleInput() {
 }
 
 void GameState::update() {
-    mPlayer.update();
+    mPlayer.update(getDeltaTime());
 }
 
 void GameState::render() {

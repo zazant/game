@@ -16,6 +16,20 @@ public:
 
     virtual void render() = 0;
 
+    float getDeltaTime() const {
+        return deltaTime;
+    }
+
+    Config &getConfig() const {
+        return mConfig;
+    }
+
+    void setDeltaTime(float deltaTime) {
+        State::deltaTime = deltaTime;
+    }
+
 private:
     Config &mConfig;
+
+    float deltaTime;
 };
