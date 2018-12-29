@@ -4,11 +4,17 @@
 
 struct Entity {
     Entity()
-        : box({0.f, 0.f, 0.f}), position(glm::vec3(0.f)), rotation(glm::vec3(0.f)), velocity(glm::vec3(0.f))
+        : box(glm::vec3(0.0f)), position(glm::vec3(0.f)), rotation(glm::vec3(0.f)), velocity(glm::vec3(0.f))
     {}
 
+    Entity(const glm::vec3 &pos)
+        : position(pos), rotation(glm::vec3(0.0f)), box({0, 0, 0}), velocity(glm::vec3(0.f))
+    {
+
+    }
+
     Entity(const glm::vec3 &pos, const glm::vec3 &rot)
-        : position(pos), rotation(rot), box({0, 0, 0}), velocity(glm::vec3(0.f))
+        : position(pos), rotation(rot), box(glm::vec3(0.0f)), velocity(glm::vec3(0.f))
     {
 
     }

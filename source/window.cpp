@@ -67,9 +67,9 @@ void Window::clear()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Window::clear(int R, int G, int B)
+void Window::clear(float r, float g, float b)
 {
-    glClearColor(R, G, B, 1.0);
+    glClearColor(r, g, b, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

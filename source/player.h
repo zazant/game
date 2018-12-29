@@ -1,6 +1,7 @@
 #pragma once
 
 #include "config.h"
+#include "entity.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -12,7 +13,7 @@ enum Direction {
     RIGHT
 };
 
-class Player {
+class Player : public Entity {
 public:
     Player(Config &config, GLFWwindow *window);
 
@@ -30,6 +31,7 @@ public:
 
 private:
     Config mConfig;
+    Direction tempPos;
     GLFWwindow *window;
 
     float deltaTime = 0.0f;
@@ -37,8 +39,4 @@ private:
     float lastX, lastY;
     float yaw, pitch;
     bool firstMouse;
-    Direction tempPos;
-
-    glm::vec3 position;
-    glm::vec3 target;
 };

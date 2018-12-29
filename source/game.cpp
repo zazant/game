@@ -17,7 +17,8 @@ void Game::runLoop()
     while (!mWindow.shouldClose()) {
         mState.handleInput();
 
-        mWindow.clear();
+        mWindow.clear(0.12, 0.13, 0.145);
+
         mState.update();
         mState.render();
 

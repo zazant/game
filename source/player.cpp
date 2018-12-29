@@ -17,11 +17,11 @@ namespace {
 };
 
 Player::Player(Config &config, GLFWwindow *w)
-    : mConfig(config),
+    : Entity(glm::vec3(0.0, 1.0, 0.0)),
+      mConfig(config),
       window(w),
-    // change later
-      position(glm::vec3(0.0, 1.0, 0.0)),
       yaw(-90.0f),
+      pitch(0.0f),
       firstMouse(true)
 {
     glfwSetWindowUserPointer(window, this);
@@ -33,7 +33,7 @@ Player::Player(Config &config, GLFWwindow *w)
     front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
     front.y = sin(glm::radians(pitch));
     front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-    target = glm::normalize(front);
+    rotation = glm::normalize(front);
 }
 
 void Player::update(float dt)
@@ -43,7 +43,7 @@ void Player::update(float dt)
 
 glm::mat4 Player::getViewMatrix()
 {
-    return glm::lookAt(position, position + target, glm::vec3(0.0, 1.0, 0.0));
+    return glm::lookAt(position, position + rotation, glm::vec3(0.0, 1.0, 0.0));
 }
 
 glm::mat4 Player::getProjectionMatrix()
@@ -74,7 +74,7 @@ void Player::setMouse(double x, double y)
     front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
     front.y = sin(glm::radians(pitch));
     front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-    target = glm::normalize(front);
+    rotation = glm::normalize(front);
 }
 
 void Player::handleMouseClick()
@@ -88,16 +88,16 @@ void Player::handleKeyboard(Direction direction)
 
     switch (direction) {
         case FORWARD:
-            position += target * adjustedSpeed;
+            position += rotation * adjustedSpeed;
             break;
         case BACKWARD:
-            position -= target * adjustedSpeed;
+            position -= rotation * adjustedSpeed;
             break;
         case LEFT:
-            position -= glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
+            position -= glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
             break;
         case RIGHT:
-            position += glm::normalize(glm::cross(target, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
+            position += glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
             break;
     }
 }

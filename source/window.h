@@ -14,7 +14,7 @@ public:
 
     void clear();
 
-    void clear(int R, int G, int B);
+    void clear(float r, float g, float b);
 
     void swapBuffer();
 
