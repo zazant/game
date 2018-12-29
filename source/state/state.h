@@ -31,5 +31,5 @@ public:
 private:
     Config &mConfig;
 
-    float deltaTime;
+    float deltaTime = 0.0f;
 };

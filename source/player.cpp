@@ -71,7 +71,6 @@ void Player::setMouse(double x, double y) {
     target = glm::normalize(front);
 }
 
-// add mouse callback? or implement, at least
 void Player::handleMouseClick() {
 
 }

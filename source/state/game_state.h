@@ -23,8 +23,6 @@ public:
 private:
     GLFWwindow *window;
 
-    float deltaTime = 0.0f;
-
     World mWorld;
     Player mPlayer;
 };
