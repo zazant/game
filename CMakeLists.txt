@@ -13,7 +13,7 @@ file(COPY "${SRC_DIR}/shader" DESTINATION "res")
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 
 # GLFW
 set(GLFW_DIR "${LIB_DIR}/glfw")

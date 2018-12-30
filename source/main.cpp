@@ -5,6 +5,7 @@
 
 int main()
 {
+    // TODO: add config.ini
     Config config;
     Game app(config);
 

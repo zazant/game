@@ -31,10 +31,8 @@ void GameState::handleInput()
         mPlayer.handleKeyboard(RIGHT);
 }
 
-void GameState::update()
+void GameState::update(float deltaTime)
 {
-    endTick();
-    startTick();
     mPlayer.update(deltaTime);
 }
 

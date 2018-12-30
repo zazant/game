@@ -6,7 +6,11 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <memory>
+
 Game::Game(Config &config)
+    : window(nullptr),
+      mState(nullptr)
 {
     // glfw: initialize and configure
     // ------------------------------
@@ -16,7 +20,7 @@ Game::Game(Config &config)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // fix compilation on OS X
 #endif
 
     // glfw window creation
@@ -38,22 +42,30 @@ Game::Game(Config &config)
     glEnable(GL_DEPTH_TEST);
     glfwSwapInterval(0);
 
-    mState = new GameState(config, window);
+    // test
+
+    mState = std::make_unique<GameState>(config, window);
 }
 
 void Game::runLoop()
 {
     while (!glfwWindowShouldClose(window)) {
+        now = (float) glfwGetTime();
+        deltaTime = now - lastTime;
+
         mState->handleInput();
 
+        // clear window background and buffer
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        mState->update();
+        mState->update(deltaTime);
         mState->render();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+
+        lastTime = now;
     }
     glfwTerminate();
 }
@@ -71,8 +83,4 @@ void Game::framebufferSizeCallback(GLFWwindow *window, int width, int height)
     Config &config = player->getConfig();
     config.WIDTH = width;
     config.HEIGHT = height;
-}
-
-Game::~Game() {
-    delete mState;
 }
