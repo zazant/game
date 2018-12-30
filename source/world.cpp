@@ -2,6 +2,8 @@
 
 #include "config.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -41,14 +43,16 @@ World::World(Config &config)
 void World::generateWorld()
 {
     std::default_random_engine engine;
-    std::uniform_real_distribution<float> distribution(-0.0f, 0.1f);
+    std::uniform_real_distribution<float> distribution(0.0f, 1.0f);
 
     int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
 
-    float step = 2.0f / (chunkSize - 1);
+    float step = 1.0f;
 
-    float xVertex = -1.0f;
-    float zVertex = -1.0f;
+    float corner = -(chunkSize - 1) / 2.0f;
+
+    float xVertex = corner;
+    float zVertex = corner;
     for (int i = 0; i < chunkSize; i++) {
         for (int j = 0; j < chunkSize; j++) {
             mMesh.vertices.push_back(xVertex);
@@ -58,7 +62,7 @@ void World::generateWorld()
             zVertex += step;
         }
         xVertex += step;
-        zVertex = -1.0f;
+        zVertex = corner;
     }
 
     for (unsigned int i = 0; i < chunkSize * (chunkSize - 1); i += chunkSize) {
