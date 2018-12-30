@@ -10,10 +10,8 @@
 #include <iostream>
 
 GameState::GameState(Config &config, GLFWwindow *w)
-    : State(config), mWorld(config), mPlayer(config, w), window(w)
-{
-
-}
+    : State(config, w), mWorld(config), mPlayer(config, w)
+{}
 
 void GameState::handleInput()
 {
@@ -44,3 +42,4 @@ void GameState::render()
 {
     mWorld.render(mPlayer.getProjectionMatrix(), mPlayer.getViewMatrix());
 }
+

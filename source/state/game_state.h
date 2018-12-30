@@ -21,8 +21,6 @@ public:
     void render() override;
 
 private:
-    GLFWwindow *window;
-
     World mWorld;
     Player mPlayer;
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "config.h"
-#include "window.h"
 #include "state/game_state.h"
 
 class Game {
@@ -10,9 +9,13 @@ public:
 
     void runLoop();
 
+    static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
+
+    ~Game();
+
 private:
-    Window mWindow;
+    GLFWwindow *window;
 
     // todo: convert to vector
-    GameState mState;
+    GameState *mState;
 };

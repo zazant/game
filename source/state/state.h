@@ -8,7 +8,8 @@
 
 class State {
 public:
-    State(Config &config) : mConfig(config)
+    State(Config &config, GLFWwindow *window)
+            : mConfig(&config), window(window)
     {};
 
     virtual void handleInput() = 0;
@@ -19,11 +20,12 @@ public:
 
     Config &getConfig() const
     {
-        return mConfig;
+        return *mConfig;
     }
 
 protected:
-    Config &mConfig;
+    Config *mConfig;
+    GLFWwindow *window;
 
     void startTick()
     {
