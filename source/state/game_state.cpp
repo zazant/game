@@ -34,6 +34,7 @@ void GameState::handleInput()
 void GameState::update(float deltaTime)
 {
     mPlayer.update(deltaTime);
+    mWorld.update(deltaTime);
 }
 
 void GameState::render()

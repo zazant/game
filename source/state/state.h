@@ -18,11 +18,6 @@ public:
 
     virtual void render() = 0;
 
-    Config &getConfig() const
-    {
-        return *mConfig;
-    }
-
     virtual ~State() = default;
 
 protected:

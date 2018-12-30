@@ -29,7 +29,7 @@ public:
 
     void handleKeyboard(Direction direction);
 
-    Config &getConfig();
+    Config *getConfig();
 
 private:
     Config mConfig;

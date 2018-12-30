@@ -102,7 +102,6 @@ void Player::handleKeyboard(Direction direction)
     }
 }
 
-Config &Player::getConfig()
-{
-    return mConfig;
+Config *Player::getConfig() {
+    return &mConfig;
 }

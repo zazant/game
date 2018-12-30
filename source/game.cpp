@@ -80,7 +80,7 @@ void Game::framebufferSizeCallback(GLFWwindow *window, int width, int height)
 
     // get config from player object
     auto *player = (Player *) glfwGetWindowUserPointer(window);
-    Config &config = player->getConfig();
-    config.WIDTH = width;
-    config.HEIGHT = height;
+    Config *config = player->getConfig();
+    config->WIDTH = width;
+    config->HEIGHT = height;
 }

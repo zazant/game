@@ -22,11 +22,12 @@ World::World(Config &config)
 
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, mMesh.vertices.size() * sizeof(Vertex), mMesh.vertices.data(), GL_STATIC_DRAW);
+    // maybe change to GL_STATIC_DRAW? test out
+    glBufferData(GL_ARRAY_BUFFER, mMesh.vertices.size() * sizeof(Vertex), mMesh.vertices.data(), GL_DYNAMIC_DRAW);
 
     glGenBuffers(1, &EBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mMesh.indices.size() * sizeof(Index), mMesh.indices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mMesh.indices.size() * sizeof(Index), mMesh.indices.data(), GL_DYNAMIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
@@ -59,6 +60,7 @@ void World::generateWorld()
     }
 
     // create heightmap
+    mMesh.indices.clear();
     for (unsigned int i = 0; i < chunkSize * (chunkSize - 1); i += chunkSize) {
         for (unsigned int j = 0; j < chunkSize - 1; j++) {
             mMesh.indices.push_back(Index{i + j, i + j + chunkSize, i + j + chunkSize + 1});
@@ -91,7 +93,10 @@ void World::generateWorld()
 }
 
 void World::update(float deltaTime) {
-
+    // world updating
+//    for (auto &a : mMesh.vertices)
+//        a.y += ((rand() % 1000 - 400) / 1000.0f) * deltaTime;
+//    glBufferData(GL_ARRAY_BUFFER, mMesh.vertices.size() * sizeof(Vertex), mMesh.vertices.data(), GL_STATIC_DRAW);
 }
 
 void World::render(const glm::mat4 proj, const glm::mat4 view)
@@ -101,7 +106,6 @@ void World::render(const glm::mat4 proj, const glm::mat4 view)
     shader.setMat4("View", view);
 
     glBindVertexArray(VAO);
-    // glDrawArrays(GL_TRIANGLES, 0, 21 * 21);
     glDrawElements(GL_TRIANGLES, mMesh.indices.size() * 3, GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
 }
