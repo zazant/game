@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include "config.h"
+#include "player.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -15,6 +16,12 @@ namespace {
         // make sure the viewport matches the new window dimensions; note that width and
         // height will be significantly larger than specified on retina displays.
         glViewport(0, 0, width, height);
+
+        // get config from player object
+        Player *player = (Player *) glfwGetWindowUserPointer(window);
+        Config &config = player->getConfig();
+        config.WIDTH = width;
+        config.HEIGHT = height;
     }
 }
 

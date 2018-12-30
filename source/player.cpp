@@ -20,7 +20,7 @@ Player::Player(Config &config, GLFWwindow *w)
     : Entity(glm::vec3(0.0, 1.0, 0.0)),
       mConfig(config),
       window(w),
-      yaw(-90.0f),
+      yaw(0.0f),
       pitch(0.0f),
       firstMouse(true)
 {
@@ -100,4 +100,9 @@ void Player::handleKeyboard(Direction direction)
             position += glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
             break;
     }
+}
+
+Config &Player::getConfig()
+{
+    return mConfig;
 }

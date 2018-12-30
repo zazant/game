@@ -29,6 +29,8 @@ public:
 
     void handleKeyboard(Direction direction);
 
+    Config &getConfig();
+
 private:
     Config mConfig;
     Direction tempPos;
