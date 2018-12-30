@@ -33,7 +33,6 @@ public:
 
 private:
     Config mConfig;
-    Direction tempPos;
     GLFWwindow *window;
 
     float deltaTime = 0.0f;
