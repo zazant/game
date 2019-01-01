@@ -10,11 +10,11 @@
 #include <vector>
 
 struct Vertex {
-    GLfloat x, y, z;
+    GLfloat positions[3];
 };
 
 struct Index {
-    GLuint x, y, z;
+    GLuint positions[3];
 };
 
 struct Mesh {
@@ -24,7 +24,7 @@ struct Mesh {
 
 class World {
 public:
-    explicit World(Config &config);
+    explicit World(Config &config, Player &player);
 
     void generateWorld();
 
@@ -33,9 +33,12 @@ public:
     void render(glm::mat4 proj, glm::mat4 view);
 
 private:
+    void checkCollision();
+
     GLuint VAO, VBO, EBO;
     Shader shader;
-    Config mConfig;
+    Config &mConfig;
+    Player &mPlayer;
 
     // temporary
     Mesh mMesh;

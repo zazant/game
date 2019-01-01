@@ -9,7 +9,7 @@
 class State {
 public:
     State(Config &config, GLFWwindow *window)
-            : mConfig(&config), window(window)
+            : mConfig(config), window(window)
     {};
 
     virtual void handleInput() = 0;
@@ -21,7 +21,7 @@ public:
     virtual ~State() = default;
 
 protected:
-    Config *mConfig;
+    Config &mConfig;
     GLFWwindow *window;
 
 };

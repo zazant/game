@@ -32,7 +32,7 @@ public:
     Config *getConfig();
 
 private:
-    Config mConfig;
+    Config &mConfig;
     GLFWwindow *window;
 
     float deltaTime = 0.0f;

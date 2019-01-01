@@ -8,5 +8,6 @@ struct Config {
     struct internal_settings {
         int CHUNK_SIZE = 17;
         float MOVEMENT_SPEED = 2.0f;
+        float PLAYER_HEIGHT = 2.0f;
     } INTERNAL_SETTINGS;
 };
