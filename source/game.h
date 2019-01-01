@@ -4,6 +4,7 @@
 #include "state/game_state.h"
 
 #include <utility>
+#include <memory>
 
 class Game {
 public:
