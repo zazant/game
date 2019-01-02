@@ -9,6 +9,7 @@
 static float now = 0.0f;
 static float lastTime = 0.0f;
 static float deltaTime = 0.0f;
+static Config config;
 
 static void framebufferSizeCallback(GLFWwindow *window, int width, int height)
 {
@@ -16,17 +17,13 @@ static void framebufferSizeCallback(GLFWwindow *window, int width, int height)
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 
-    // get config from player object
-    auto *player = (Player *) glfwGetWindowUserPointer(window);
-    Config *config = player->getConfig();
-    config->WIDTH = width;
-    config->HEIGHT = height;
+    config.WIDTH = width;
+    config.HEIGHT = height;
 }
 
 int main()
 {
     // TODO: add config.ini
-    Config config;
 
     // glfw: initialize and configure
     // ------------------------------
