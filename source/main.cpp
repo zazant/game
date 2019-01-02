@@ -65,7 +65,7 @@ int main()
         mState->handleInput();
 
         // clear window background and buffer
-        glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClearColor(0.24, 0.24, 0.24, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         mState->update(deltaTime);
