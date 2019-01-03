@@ -7,8 +7,9 @@ struct Config {
     float SENSITIVITY = 0.05f;
     struct {
         // probably has to be an odd number
-        int CHUNK_SIZE = 17;
+        int CHUNK_SIZE = 171;
         float MOVEMENT_SPEED = 2.0f;
-        float PLAYER_HEIGHT = 1.0f;
+        float PLAYER_HEIGHT = 2.4f;
+        bool FLY = false;
     } INTERNAL_SETTINGS;
 };

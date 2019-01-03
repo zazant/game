@@ -1,6 +1,7 @@
 #include "world.h"
 
 #include "config.h"
+#include "perlin.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -10,23 +11,28 @@
 #include <iostream>
 
 #include <random>
+#include <time.h>
 
 // for intersect
 #define GLM_ENABLE_EXPERIMENTAL
+
 #include <glm/gtx/intersect.hpp>
 
 namespace {
-    glm::vec2 castToVec2(Vertex vertex) {
-        glm::vec3 temp = *reinterpret_cast<glm::vec3*>(vertex.positions);
+    glm::vec2 castToVec2(Vertex vertex)
+    {
+        glm::vec3 temp = *reinterpret_cast<glm::vec3 *>(vertex.positions);
         return {temp.x, temp.z};
     }
 
-    glm::vec2 castToVec2(glm::vec3 vertex) {
+    glm::vec2 castToVec2(glm::vec3 vertex)
+    {
         return {vertex.x, vertex.z};
     }
 
-    glm::vec3 castToVec3(Vertex vertex) {
-        return *reinterpret_cast<glm::vec3*>(vertex.positions);
+    glm::vec3 castToVec3(Vertex vertex)
+    {
+        return *reinterpret_cast<glm::vec3 *>(vertex.positions);
     }
 
     // Compute barycentric coordinates (u, v, w) for
@@ -42,9 +48,9 @@ namespace {
 }
 
 World::World(Config &config, Player &player)
-    : shader("res/shader/checker.vert", "res/shader/checker.frag"),
-      mConfig(config),
-      mPlayer(player)
+        : shader("res/shader/checker.vert", "res/shader/checker.frag"),
+          mConfig(config),
+          mPlayer(player)
 {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -71,6 +77,10 @@ void World::generateWorld()
     std::default_random_engine engine;
     std::uniform_real_distribution<float> distribution(0.0f, 1.0f);
 
+    unsigned int time_ui = static_cast<unsigned int>( time(NULL) );
+
+    PerlinNoise noise(20);
+
     int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
 
     float step = 1.0f;
@@ -82,7 +92,7 @@ void World::generateWorld()
     float zVertex = corner;
     for (int i = 0; i < chunkSize; i++) {
         for (int j = 0; j < chunkSize; j++) {
-            Vertex tempVertex = {xVertex, distribution(engine), zVertex};
+            Vertex tempVertex = {xVertex, (float) noise.octaveNoise0_1(xVertex / chunkSize, zVertex / chunkSize, 8) * 20, zVertex};
             mMesh.vertices.push_back(tempVertex);
 
             xVertex += step;
@@ -102,12 +112,16 @@ void World::generateWorld()
 
 }
 
-void World::update(float deltaTime) {
+void World::update(float deltaTime)
+{
+    int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
+    PerlinNoise noise(20);
+    float time = glm::cos(glm::sin((float) glfwGetTime()));
     checkCollision();
     // world updating
-//    for (auto &a : mMesh.vertices)
-//        a.y += ((rand() % 1000 - 400) / 1000.0f) * deltaTime;
-//    glBufferData(GL_ARRAY_BUFFER, mMesh.vertices.size() * sizeof(Vertex), mMesh.vertices.data(), GL_STATIC_DRAW);
+    for (auto &a : mMesh.vertices)
+        a.positions[1] = (float) noise.octaveNoise0_1(a.positions[0] * 10 / chunkSize, a.positions[2] * 10 / chunkSize, time, 1) * 20;
+    glBufferData(GL_ARRAY_BUFFER, mMesh.vertices.size() * sizeof(Vertex), mMesh.vertices.data(), GL_STATIC_DRAW);
 }
 
 void World::render(const glm::mat4 proj, const glm::mat4 view)
@@ -121,17 +135,19 @@ void World::render(const glm::mat4 proj, const glm::mat4 view)
     glBindVertexArray(0);
 }
 
-void World::checkCollision() {
+void World::checkCollision()
+{
     float playerHeight = mConfig.INTERNAL_SETTINGS.PLAYER_HEIGHT;
     int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
 
-    glm::vec3 currentPos = mPlayer.getPosition();
+    // to avoid bad 0
+    glm::vec3 currentPos = mPlayer.getPosition() + 0.000001f;
     // remember: y would be equal to z
     glm::vec2 currentPos2D = castToVec2(mPlayer.getPosition());
 
     glm::vec2 triangle[3] = {
             {glm::floor(currentPos.x), glm::floor(currentPos.z)},
-            {glm::ceil(currentPos.x), glm::ceil(currentPos.z)},
+            {glm::ceil(currentPos.x),  glm::ceil(currentPos.z)},
     };
 
     glm::vec2 bottomLeft = {glm::ceil(currentPos.x), glm::floor(currentPos.z)};
@@ -150,12 +166,14 @@ void World::checkCollision() {
     // values other than y are for debugging -- remove later
     for (int i = 0; i < 3; i++) {
         int index = centerIndex + (int) triangle[i].x + (int) triangle[i].y * chunkSize;
-        height[i] = {mMesh.vertices[index].positions[0], mMesh.vertices[index].positions[1], mMesh.vertices[index].positions[2]};
+        height[i] = {mMesh.vertices[index].positions[0], mMesh.vertices[index].positions[1],
+                     mMesh.vertices[index].positions[2]};
     }
 
     float u, v, w;
     barycentric(currentPos2D, triangle[0], triangle[1], triangle[2], u, v, w);
     float tempHeight = u * height[0].y + v * height[1].y + w * height[2].y;
 
-    mPlayer.setPosition(glm::vec3(currentPos.x, tempHeight + playerHeight, currentPos.z));
+    if (!mConfig.INTERNAL_SETTINGS.FLY || currentPos.y - playerHeight < tempHeight)
+        mPlayer.setPosition(glm::vec3(currentPos.x, tempHeight + playerHeight, currentPos.z));
 }

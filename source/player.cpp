@@ -17,13 +17,13 @@ namespace {
 };
 
 Player::Player(Config &config, GLFWwindow *w)
-    : Entity(glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT + 1.0, 0.0), glm::vec3(0.0),
-            glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT, 0.0)),
-      mConfig(config),
-      window(w),
-      yaw(-90.0f),
-      pitch(0.0f),
-      firstMouse(true)
+        : Entity(glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT + 1.0, 0.0), glm::vec3(0.0),
+                 glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT, 0.0)),
+          mConfig(config),
+          window(w),
+          yaw(-90.0f),
+          pitch(0.0f),
+          firstMouse(true)
 {
     glfwSetWindowUserPointer(window, this);
     glfwSetCursorPosCallback(window, cursorPosCallback);
@@ -89,10 +89,10 @@ void Player::handleKeyboard(Direction direction)
 
     switch (direction) {
         case FORWARD:
-            position += rotation * adjustedSpeed;
+            position += glm::normalize(glm::vec3(rotation.x, 0.0, rotation.z)) * adjustedSpeed;
             break;
         case BACKWARD:
-            position -= rotation * adjustedSpeed;
+            position -= glm::normalize(glm::vec3(rotation.x, 0.0, rotation.z)) * adjustedSpeed;
             break;
         case LEFT:
             position -= glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
@@ -103,6 +103,7 @@ void Player::handleKeyboard(Direction direction)
     }
 }
 
-Config *Player::getConfig() {
+Config *Player::getConfig()
+{
     return &mConfig;
 }
