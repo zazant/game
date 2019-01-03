@@ -22,6 +22,11 @@ struct Mesh {
     std::vector<Index> indices;
 };
 
+struct Chunk {
+    glm::vec2 offset;
+    Mesh mesh;
+};
+
 class World {
 public:
     explicit World(Config &config, Player &player);

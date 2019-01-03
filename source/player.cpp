@@ -17,10 +17,11 @@ namespace {
 };
 
 Player::Player(Config &config, GLFWwindow *w)
-    : Entity(glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT + 0.1, 0.0), glm::vec3(0.0), glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT, 0.0)),
+    : Entity(glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT + 1.0, 0.0), glm::vec3(0.0),
+            glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT, 0.0)),
       mConfig(config),
       window(w),
-      yaw(0.0f),
+      yaw(-90.0f),
       pitch(0.0f),
       firstMouse(true)
 {
