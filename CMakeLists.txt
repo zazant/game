@@ -8,7 +8,7 @@ set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
 file(GLOB_RECURSE SOURCES "${SRC_DIR}/*.cpp")
 
 # Copy shader files
-file(COPY "${SRC_DIR}/shader" DESTINATION "res")
+file(COPY "${SRC_DIR}/shaders" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/res")
 
 # Executable definition and properties
 add_executable(${PROJECT_NAME} ${SOURCES})
