@@ -48,7 +48,7 @@ namespace {
 }
 
 World::World(Config &config, Player &player)
-        : shader("res/shader/checker.vert", "res/shader/checker.frag"),
+        : shader("res/shader/colors.vert", "res/shader/colors.frag"),
           mConfig(config),
           mPlayer(player)
 {
