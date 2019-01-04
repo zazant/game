@@ -13,11 +13,6 @@
 #include <random>
 #include <time.h>
 
-// for intersect
-#define GLM_ENABLE_EXPERIMENTAL
-
-#include <glm/gtx/intersect.hpp>
-
 namespace {
     glm::vec2 castToVec2(Vertex vertex)
     {
@@ -48,7 +43,7 @@ namespace {
 }
 
 World::World(Config &config, Player &player)
-        : shader("res/shader/colors.vert", "res/shader/colors.frag"),
+        : shader("res/shader/checker.vert", "res/shader/checker.frag"),
           mConfig(config),
           mPlayer(player)
 {
