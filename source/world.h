@@ -11,6 +11,7 @@
 
 struct Vertex {
     GLfloat positions[3];
+    GLfloat normal[3];
 };
 
 struct Index {

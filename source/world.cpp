@@ -43,7 +43,7 @@ namespace {
 }
 
 World::World(Config &config, Player &player)
-        : shader("res/shader/checker.vert", "res/shader/checker.frag"),
+        : shader("res/shaders/block.vert", "res/shaders/block.frag"),
           mConfig(config),
           mPlayer(player)
 {
@@ -112,11 +112,11 @@ void World::update(float deltaTime)
     int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
     PerlinNoise noise(20);
     float time = glm::cos(glm::sin((float) glfwGetTime()));
-    checkCollision();
     // world updating
     for (auto &a : mMesh.vertices)
         a.positions[1] = (float) noise.octaveNoise0_1(a.positions[0] * 10 / chunkSize, a.positions[2] * 10 / chunkSize, time, 1) * 20;
     glBufferData(GL_ARRAY_BUFFER, mMesh.vertices.size() * sizeof(Vertex), mMesh.vertices.data(), GL_STATIC_DRAW);
+    checkCollision();
 }
 
 void World::render(const glm::mat4 proj, const glm::mat4 view)
@@ -124,6 +124,7 @@ void World::render(const glm::mat4 proj, const glm::mat4 view)
     // set shader variables here
     shader.setMat4("Projection", proj);
     shader.setMat4("View", view);
+    shader.setVec3("LightAngle", glm::vec3(0.0, -1.0, 0.0));
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, (int) mMesh.indices.size() * 3, GL_UNSIGNED_INT, nullptr);
@@ -136,7 +137,7 @@ void World::checkCollision()
     int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
 
     // to avoid bad 0
-    glm::vec3 currentPos = mPlayer.getPosition() + 0.000001f;
+    glm::vec3 currentPos = mPlayer.getPosition() + 0.01f;
     // remember: y would be equal to z
     glm::vec2 currentPos2D = castToVec2(mPlayer.getPosition());
 
@@ -154,20 +155,20 @@ void World::checkCollision()
         triangle[2] = topRight;
     }
 
-    glm::vec3 height[3];
+    glm::vec3 height;
 
     int centerIndex = chunkSize / 2 + chunkSize * (chunkSize / 2);
 
     // values other than y are for debugging -- remove later
     for (int i = 0; i < 3; i++) {
         int index = centerIndex + (int) triangle[i].x + (int) triangle[i].y * chunkSize;
-        height[i] = {mMesh.vertices[index].positions[0], mMesh.vertices[index].positions[1],
+        height = {mMesh.vertices[index].positions[0], mMesh.vertices[index].positions[1],
                      mMesh.vertices[index].positions[2]};
     }
 
     float u, v, w;
     barycentric(currentPos2D, triangle[0], triangle[1], triangle[2], u, v, w);
-    float tempHeight = u * height[0].y + v * height[1].y + w * height[2].y;
+    float tempHeight = u * height.x + v * height.y + w * height.z;
 
     if (!mConfig.INTERNAL_SETTINGS.FLY || currentPos.y - playerHeight < tempHeight)
         mPlayer.setPosition(glm::vec3(currentPos.x, tempHeight + playerHeight, currentPos.z));

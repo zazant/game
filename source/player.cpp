@@ -87,20 +87,36 @@ void Player::handleKeyboard(Direction direction)
 {
     float adjustedSpeed = mConfig.INTERNAL_SETTINGS.MOVEMENT_SPEED * deltaTime;
 
-    switch (direction) {
-        case FORWARD:
-            position += glm::normalize(glm::vec3(rotation.x, 0.0, rotation.z)) * adjustedSpeed;
-            break;
-        case BACKWARD:
-            position -= glm::normalize(glm::vec3(rotation.x, 0.0, rotation.z)) * adjustedSpeed;
-            break;
-        case LEFT:
-            position -= glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
-            break;
-        case RIGHT:
-            position += glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
-            break;
-    }
+    if (mConfig.INTERNAL_SETTINGS.FLY)
+        switch (direction) {
+            case FORWARD:
+                position += rotation * adjustedSpeed;
+                break;
+            case BACKWARD:
+                position -= rotation * adjustedSpeed;
+                break;
+            case LEFT:
+                position -= glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
+                break;
+            case RIGHT:
+                position += glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
+                break;
+        }
+    else
+        switch (direction) {
+            case FORWARD:
+                position += glm::normalize(glm::vec3(rotation.x, 0.0, rotation.z)) * adjustedSpeed;
+                break;
+            case BACKWARD:
+                position -= glm::normalize(glm::vec3(rotation.x, 0.0, rotation.z)) * adjustedSpeed;
+                break;
+            case LEFT:
+                position -= glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
+                break;
+            case RIGHT:
+                position += glm::normalize(glm::cross(rotation, glm::vec3(0.0, 1.0, 0.0))) * adjustedSpeed;
+                break;
+        }
 }
 
 Config *Player::getConfig()

@@ -58,6 +58,9 @@ int main()
 
     states.push(std::make_unique<GameState>(config, window));
 
+    glm::vec3 skyColor = {171, 212, 220};
+    skyColor /= 255;
+
     while (!glfwWindowShouldClose(window)) {
         now = (float) glfwGetTime();
         deltaTime = now - lastTime;
@@ -65,7 +68,7 @@ int main()
         states.top()->handleInput();
 
         // clear window background and buffer
-        glClearColor(0.24, 0.24, 0.24, 1.0);
+        glClearColor(skyColor.x, skyColor.y, skyColor.z, 1.0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         states.top()->update(deltaTime);
