@@ -155,20 +155,20 @@ void World::checkCollision()
         triangle[2] = topRight;
     }
 
-    glm::vec3 height;
+    glm::vec3 height[3];
 
     int centerIndex = chunkSize / 2 + chunkSize * (chunkSize / 2);
 
     // values other than y are for debugging -- remove later
     for (int i = 0; i < 3; i++) {
         int index = centerIndex + (int) triangle[i].x + (int) triangle[i].y * chunkSize;
-        height = {mMesh.vertices[index].positions[0], mMesh.vertices[index].positions[1],
+        height[i] = {mMesh.vertices[index].positions[0], mMesh.vertices[index].positions[1],
                      mMesh.vertices[index].positions[2]};
     }
 
     float u, v, w;
     barycentric(currentPos2D, triangle[0], triangle[1], triangle[2], u, v, w);
-    float tempHeight = u * height.x + v * height.y + w * height.z;
+    float tempHeight = u * height[0].y + v * height[1].y + w * height[2].y;
 
     if (!mConfig.INTERNAL_SETTINGS.FLY || currentPos.y - playerHeight < tempHeight)
         mPlayer.setPosition(glm::vec3(currentPos.x, tempHeight + playerHeight, currentPos.z));
