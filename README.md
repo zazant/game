@@ -2,4 +2,4 @@
 
 An incomplete game engine I wrote with OpenGL in C++. 
 
-![perlin](https://zazant.com/pictures/progress_2.gif)
+![perlin](https://github.com/zazant/zazant.github.io/blob/master/pictures/progress_2.gif?raw=true)
