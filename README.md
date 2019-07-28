@@ -1,4 +1,4 @@
-# OpenGL game
+# OpenGL game engine
 
 An incomplete game engine I wrote with OpenGL in C++. 
 
