@@ -2,8 +2,8 @@
 #include "state.h"
 
 #include "../config.h"
-#include "../world.h"
-#include "../player.h"
+#include "game/world.h"
+#include "game/player.h"
 
 #include <GLFW/glfw3.h>
 

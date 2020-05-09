@@ -43,7 +43,7 @@ namespace {
 }
 
 World::World(Config &config, Player &player)
-        : shader("res/shaders/block.vert", "res/shaders/block.frag"),
+        : shader("res/shaders/checker.vert", "res/shaders/checker.frag"),
           mConfig(config),
           mPlayer(player)
 {
