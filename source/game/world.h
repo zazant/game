@@ -1,11 +1,13 @@
 #pragma once
 
 #include "player.h"
-#include "config.h"
 #include "shader.h"
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 #include <vector>
 
@@ -30,7 +32,7 @@ struct Chunk {
 
 class World {
 public:
-    explicit World(Config &config, Player &player);
+    explicit World(json &config, Player &player);
 
     void generateWorld();
 
@@ -45,7 +47,7 @@ private:
 
     GLuint VAO, VBO, EBO;
     Shader shader;
-    Config &mConfig;
+    json &mConfig;
     Player &mPlayer;
     std::vector<float> mapData;
     int mapSize;

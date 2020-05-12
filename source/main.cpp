@@ -1,10 +1,12 @@
 #include <iostream>
 
-#include "config.h"
 #include "state/game_state.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -14,13 +16,15 @@
 #include <thread>
 #include <chrono>
 
+#include <fstream>
+
 static float now = 0.0f;
 static float lastRenderTime = 0.0f;
 static float lastUpdateTime = 0.0f;
 static float deltaTime = 0.0f;
 
 static std::stack<std::unique_ptr<State>> states;
-static Config config;
+static json config;
 
 static void framebufferSizeCallback(GLFWwindow *window, int width, int height)
 {
@@ -28,12 +32,16 @@ static void framebufferSizeCallback(GLFWwindow *window, int width, int height)
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 
-    config.WIDTH = width;
-    config.HEIGHT = height;
+    config["width"] = width;
+    config["height"] = height;
 }
 
 int main()
 {
+    // read config
+    std::ifstream i("../config.json");
+    i >> config;
+
     // glfw: initialize and configure
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -50,7 +58,7 @@ int main()
 #endif
 
     // glfw window creation
-    GLFWwindow *window = glfwCreateWindow(config.WIDTH, config.HEIGHT, "Game", nullptr, nullptr);
+    GLFWwindow *window = glfwCreateWindow(config["width"], config["height"], "Game", nullptr, nullptr);
     if (window == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();

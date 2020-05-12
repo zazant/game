@@ -1,6 +1,5 @@
 #include "world.h"
 
-#include "config.h"
 #include "perlin.h"
 
 #include <glm/glm.hpp>
@@ -8,9 +7,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "../imgui/imgui.h"
-#include "../imgui/imgui_impl_glfw.h"
-#include "../imgui/imgui_impl_opengl3.h"
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 #include <iostream>
 #include <string>
@@ -54,7 +56,7 @@ namespace {
     }
 }
 
-World::World(Config &config, Player &player)
+World::World(json &config, Player &player)
         : shader("res/shaders/checker.vert", "res/shaders/checker.frag"),
           mConfig(config),
           mPlayer(player)
@@ -109,7 +111,7 @@ void World::generateWorld()
 
     PerlinNoise noise(20);
 
-    int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
+    int chunkSize = mConfig["internal_settings"]["chunk_size"];
 
     // make sure chunk size is odd
     if (chunkSize % 2 == 0) {
@@ -172,7 +174,7 @@ void World::update(float deltaTime)
 {
     delta = deltaTime;
 
-    int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
+    int chunkSize = mConfig["internal_settings"]["chunk_size"];
     int noiseSize = 171;
     PerlinNoise noise(20);
     float time = glm::cos(glm::sin((float) glfwGetTime()));
@@ -266,11 +268,11 @@ void World::render(float framerate, const glm::mat4 proj, const glm::mat4 view, 
     ImGui::End();
 
     ImGui::Begin("Debug", nullptr,  ImGuiWindowFlags_AlwaysAutoResize);
-    ImGui::Text(("height: " + std::to_string(tempHeight)).c_str());
+    ImGui::Text("%s", ("height: " + std::to_string(tempHeight)).c_str());
     ImGui::Text(bottomLeftBool ? "True" : "False");
-    ImGui::Text(("x: " + std::to_string(mPlayer.getPosition().x)).c_str());
-    ImGui::Text(("z: " + std::to_string(mPlayer.getPosition().z)).c_str());
-    ImGui::Text(("fps: " + std::to_string(framerate)).c_str());
+    ImGui::Text("%s", ("x: " + std::to_string(mPlayer.getPosition().x)).c_str());
+    ImGui::Text("%s", ("z: " + std::to_string(mPlayer.getPosition().z)).c_str());
+    ImGui::Text("%s", ("fps: " + std::to_string(framerate)).c_str());
     ImGui::End();
 
     ImGui::Render();
@@ -281,8 +283,8 @@ void World::render(float framerate, const glm::mat4 proj, const glm::mat4 view, 
 
 void World::checkCollision()
 {
-    float playerHeight = mConfig.INTERNAL_SETTINGS.PLAYER_HEIGHT;
-    int chunkSize = mConfig.INTERNAL_SETTINGS.CHUNK_SIZE;
+    float playerHeight = (float) mConfig["internal_settings"]["player_height"];
+    int chunkSize = mConfig["internal_settings"]["chunk_size"];
 
     glm::vec3 currentPos = mPlayer.getPosition();
 
@@ -327,6 +329,6 @@ void World::checkCollision()
     barycentric(currentPos2D, adjustedTriangle[0], adjustedTriangle[1], adjustedTriangle[2], u, v, w);
     tempHeight = u * height[0].y + v * height[1].y + w * height[2].y;
 
-    if (!mConfig.INTERNAL_SETTINGS.FLY)
+    if (!mConfig["internal_settings"]["fly"])
         mPlayer.setPosition(glm::vec3(currentPos2D.x, tempHeight + playerHeight, currentPos2D.y));
 }

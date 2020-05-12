@@ -1,0 +1,14 @@
+{
+  "width": 1200,
+  "height": 900,
+  "max_fps": 60.0,
+  "fov": 90.0,
+  "sensitivity": 0.05,
+  "internal_settings": {
+    "chunk_size": 171,
+    "movement_speed": 10.0,
+    "run_mul": 10.0,
+    "player_height": 2.4,
+    "fly": true
+  }
+}

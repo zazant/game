@@ -1,10 +1,12 @@
 #pragma once
 
-#include "config.h"
 #include "entity.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 enum Direction {
     FORWARD,
@@ -15,7 +17,7 @@ enum Direction {
 
 class Player : public Entity {
 public:
-    Player(Config &config, GLFWwindow *window);
+    Player(json &config, GLFWwindow *window);
 
     void update(float dt);
 
@@ -29,7 +31,7 @@ public:
 
     void handleKeyboard(Direction direction);
 
-    Config *getConfig();
+    json *getConfig();
 
     bool isMenu() const;
 
@@ -44,7 +46,7 @@ public:
     void setRun(bool run);
 
 private:
-    Config &mConfig;
+    json &mConfig;
     GLFWwindow *window;
 
     float deltaTime = 0.0f;

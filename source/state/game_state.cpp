@@ -1,15 +1,17 @@
 #include "game_state.h"
 #include "state.h"
 
-#include "../config.h"
 #include "game/world.h"
 #include "game/player.h"
 
 #include <GLFW/glfw3.h>
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 #include <iostream>
 
-GameState::GameState(Config &config, GLFWwindow *w)
+GameState::GameState(json &config, GLFWwindow *w)
         : State(config, w), mPlayer(config, w), mWorld(config, mPlayer)
 {}
 

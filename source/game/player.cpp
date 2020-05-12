@@ -1,10 +1,11 @@
 #include "player.h"
 
-#include "config.h"
-
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 #include <iostream>
 
@@ -20,7 +21,7 @@ namespace {
     {
         Player *player = (Player *) glfwGetWindowUserPointer(window);
 //        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
             if (!player->isMenu()) {
                 player->setMenu(!player->isMenu());
 
@@ -41,13 +42,13 @@ namespace {
 
                 glfwSetCursorPosCallback(window, cursorPosCallback);
             }
-
+        }
     }
 };
 
-Player::Player(Config &config, GLFWwindow *w)
-        : Entity(glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT + 1.0, 0.0), glm::vec3(0.0),
-                 glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT, 0.0)),
+Player::Player(json &config, GLFWwindow *w)
+        : Entity(glm::vec3(0.0, (float) config["internal_settings"]["player_height"] + 1.0, 0.0), glm::vec3(0.0),
+                 glm::vec3(0.0, (float) config["internal_settings"]["player_height"], 0.0)),
           mConfig(config),
           window(w),
           yaw(0.0f),
@@ -83,7 +84,7 @@ glm::mat4 Player::getViewMatrix()
 
 glm::mat4 Player::getProjectionMatrix()
 {
-    return glm::perspective(glm::radians(mConfig.FOV), (float) mConfig.WIDTH / (float) mConfig.HEIGHT, 0.01f, 100.0f);
+    return glm::perspective(glm::radians((float) mConfig["fov"]), (float) mConfig["width"] / (float) mConfig["height"], 0.01f, 100.0f);
 }
 
 void Player::setMouse(double x, double y)
@@ -97,8 +98,8 @@ void Player::setMouse(double x, double y)
     float yOffset = lastY - y;
     lastX = x;
     lastY = y;
-    yaw += xOffset * mConfig.SENSITIVITY;
-    pitch += yOffset * mConfig.SENSITIVITY;
+    yaw += xOffset * (float) mConfig["sensitivity"];
+    pitch += yOffset * (float) mConfig["sensitivity"];
 
     if (pitch > 89.0f)
         pitch = 89.0f;
@@ -119,9 +120,9 @@ void Player::handleMouseClick()
 
 void Player::handleKeyboard(Direction direction)
 {
-    float adjustedSpeed = mConfig.INTERNAL_SETTINGS.MOVEMENT_SPEED * deltaTime * (run ? mConfig.INTERNAL_SETTINGS.RUN_MUL : 1.0f);
+    float adjustedSpeed = (float) mConfig["internal_settings"]["movement_speed"] * deltaTime * (run ? (float) mConfig["internal_settings"]["run_mul"] : 1.0f);
 
-    if (mConfig.INTERNAL_SETTINGS.FLY)
+    if (mConfig["internal_settings"]["fly"])
         switch (direction) {
             case FORWARD:
                 position += rotation * adjustedSpeed;
@@ -153,7 +154,7 @@ void Player::handleKeyboard(Direction direction)
         }
 }
 
-Config *Player::getConfig()
+json *Player::getConfig()
 {
     return &mConfig;
 }
