@@ -6,7 +6,7 @@ project(game)
 
 # Source files
 set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/source")
-file(GLOB_RECURSE SOURCES "${SRC_DIR}/*.cpp")
+file(GLOB_RECURSE SOURCES "${SRC_DIR}/*.cpp" "${SRC_DIR}/*.c")
 
 # Copy shader files
 file(COPY "${SRC_DIR}/shaders" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/res")
@@ -17,8 +17,17 @@ target_include_directories(${PROJECT_NAME} PRIVATE "${SRC_DIR}")
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
 add_definitions(-DGLFW_INCLUDE_NONE)
 
-# libraries
-find_package(glad CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE glad::glad glfw glm)
+
+# libraries
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    add_definitions(-DGL_SILENCE_DEPRECATION)
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
+else()
+    find_package(glad CONFIG REQUIRED)
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE glad::glad glfw glm)
+endif()
+
