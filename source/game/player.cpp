@@ -14,6 +14,35 @@ namespace {
         Player *player = (Player *) glfwGetWindowUserPointer(window);
         player->setMouse(x, y);
     }
+
+//    void escapeCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+    void escapeCallback(GLFWwindow* window, int button, int action, int mods)
+    {
+        Player *player = (Player *) glfwGetWindowUserPointer(window);
+//        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+            if (!player->isMenu()) {
+                player->setMenu(!player->isMenu());
+
+                double cursorX;
+                double cursorY;
+                glfwGetCursorPos(window, &cursorX, &cursorY);
+
+                player->setPausedCursorLocation(glm::vec2(cursorX, cursorY));
+
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                glfwSetCursorPosCallback(window, NULL);
+            } else {
+                glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+                player->setMenu(!player->isMenu());
+
+                glm::vec2 cursorPos = player->getPausedCursorLocation();
+                glfwSetCursorPos(window, cursorPos.x, cursorPos.y);
+
+                glfwSetCursorPosCallback(window, cursorPosCallback);
+            }
+
+    }
 };
 
 Player::Player(Config &config, GLFWwindow *w)
@@ -21,14 +50,19 @@ Player::Player(Config &config, GLFWwindow *w)
                  glm::vec3(0.0, config.INTERNAL_SETTINGS.PLAYER_HEIGHT, 0.0)),
           mConfig(config),
           window(w),
-          yaw(-90.0f),
+          yaw(0.0f),
           pitch(0.0f),
-          firstMouse(true)
+          firstMouse(true),
+          run(false),
+          menu(false)
 {
     glfwSetWindowUserPointer(window, this);
     glfwSetCursorPosCallback(window, cursorPosCallback);
     // disable cursor
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    glfwSetMouseButtonCallback(w, escapeCallback);
+//    glfwSetKeyCallback(w, escapeCallback);
 
     glm::vec3 front;
     front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
@@ -85,7 +119,7 @@ void Player::handleMouseClick()
 
 void Player::handleKeyboard(Direction direction)
 {
-    float adjustedSpeed = mConfig.INTERNAL_SETTINGS.MOVEMENT_SPEED * deltaTime;
+    float adjustedSpeed = mConfig.INTERNAL_SETTINGS.MOVEMENT_SPEED * deltaTime * (run ? mConfig.INTERNAL_SETTINGS.RUN_MUL : 1.0f);
 
     if (mConfig.INTERNAL_SETTINGS.FLY)
         switch (direction) {
@@ -122,4 +156,28 @@ void Player::handleKeyboard(Direction direction)
 Config *Player::getConfig()
 {
     return &mConfig;
+}
+
+bool Player::isMenu() const {
+    return menu;
+}
+
+void Player::setMenu(bool menu) {
+    Player::menu = menu;
+}
+
+const glm::vec2 &Player::getPausedCursorLocation() const {
+    return pausedCursorLocation;
+}
+
+void Player::setPausedCursorLocation(const glm::vec2 &pausedCursorLocation) {
+    Player::pausedCursorLocation = pausedCursorLocation;
+}
+
+GLFWwindow *Player::getWindow() const {
+    return window;
+}
+
+void Player::setRun(bool run) {
+    Player::run = run;
 }

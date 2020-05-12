@@ -18,7 +18,7 @@ public:
 
     void update(float deltaTime) override;
 
-    void render() override;
+    void render(float framerate) override;
 
 private:
     World mWorld;

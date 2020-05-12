@@ -18,8 +18,15 @@ void GameState::handleInput()
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT))
         mPlayer.handleMouseClick();
 
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+    // close
+     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        mPlayer.setRun(true);
+    else {
+        mPlayer.setRun(false);
+    }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         mPlayer.handleKeyboard(FORWARD);
@@ -37,8 +44,8 @@ void GameState::update(float deltaTime)
     mWorld.update(deltaTime);
 }
 
-void GameState::render()
+void GameState::render(float framerate)
 {
-    mWorld.render(mPlayer.getProjectionMatrix(), mPlayer.getViewMatrix());
+    mWorld.render(framerate, mPlayer.getProjectionMatrix(), mPlayer.getViewMatrix(), mPlayer.isMenu());
 }
 

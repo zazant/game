@@ -31,6 +31,18 @@ public:
 
     Config *getConfig();
 
+    bool isMenu() const;
+
+    void setMenu(bool menu);
+
+    const glm::vec2 &getPausedCursorLocation() const;
+
+    void setPausedCursorLocation(const glm::vec2 &pausedCursorLocation);
+
+    GLFWwindow *getWindow() const;
+
+    void setRun(bool run);
+
 private:
     Config &mConfig;
     GLFWwindow *window;
@@ -40,4 +52,10 @@ private:
     float lastX, lastY;
     float yaw, pitch;
     bool firstMouse;
+
+    bool run;
+
+    bool menu;
+
+    glm::vec2 pausedCursorLocation;
 };
